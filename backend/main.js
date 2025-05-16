@@ -54,7 +54,7 @@ app.get('/users/:userId', (req, res) => {
     getUser(req.params, res);
 
 })
-app.get('/users/:userId/loans?', jsonParser, (req, res) => {
+app.get('/users/:userId/loans', jsonParser, (req, res) => {
     console.log(req.query.item_barcode)
     console.log(req.body)
     const ipAddress = req.ip.split(':').pop()
@@ -65,12 +65,16 @@ app.get('/whoami', (req, res) => {
     const conf = libraryConfigFromIp(ipAddress)
     if ( 'failureMessage' in conf ) {
         return res.json({
-                            error: 'Sorry, we could not find a circulation desk for your ip address.', message: conf.failureMessage
+                            error: 'Sorry, we could not find a circulation desk for your ip address.',
+                            message: conf.failureMessage
                         })
     }
     // Pass the config details we intend to pass back (not just everything in that object)
     const {
-        libraryLogoUrl: libraryLogo, featureImageUrl: featureImage, libraryNameString: libraryName, organizationNameString: organizationName
+        libraryLogoUrl: libraryLogo,
+        featureImageUrl: featureImage,
+        libraryNameString: libraryName,
+        organizationNameString: organizationName
     } = conf
     if ( !libraryName || !organizationName ) {
         return res.json({
@@ -78,7 +82,10 @@ app.get('/whoami', (req, res) => {
                         })
     }
     return res.json({
-                        libraryLogo, featureImage, libraryName, organizationName
+                        libraryLogo,
+                        featureImage,
+                        libraryName,
+                        organizationName
                     })
 })
 app.listen(port, () => console.log(`Selfcheck has started listening at ${ port }`))
@@ -117,7 +124,11 @@ async function requestLoan(params, query, ip, body, res) {
 // 
 function get_api_user(id) {
     const options = {
-        baseURL: config.hostname, port: 443, url: '/almaws/v1/users/' + id + '?expand=loans,requests,fees&format=json', method: 'get', headers: {
+        baseURL: config.hostname,
+        port: 443,
+        url: '/almaws/v1/users/' + id + '?expand=loans,requests,fees&format=json',
+        method: 'get',
+        headers: {
             Authorization: `apikey ${ config.apiKey }`
         }
     }
@@ -138,7 +149,11 @@ function get_api_user(id) {
 }
 
 function api_request_loan(userid, ip, barcode) {
-    const { apiCircDesk, apiLibraryName, failureMessage } = libraryConfigFromIp(ip)
+    const {
+        apiCircDesk,
+        apiLibraryName,
+        failureMessage
+    } = libraryConfigFromIp(ip)
     if ( failureMessage ) {
         // api_request_loan should return a promise so this is a promise that resolves to an error
         return new Promise((resolve, reject) => {
@@ -152,8 +167,14 @@ function api_request_loan(userid, ip, barcode) {
 
     const library_xml = `<?xml version='1.0' encoding='UTF-8'?><item_loan><circ_desk>${ apiCircDesk }</circ_desk><library>${ apiLibraryName }</library></item_loan>`
     const options = {
-        baseURL: config.hostname, port: 443, url: `/almaws/v1/users/${ userid }/loans?user_id_type=all_unique&item_barcode=${ barcode }`, data: library_xml, method: 'post', headers: {
-            'Content-Type': `application/xml`, 'Authorization': `apikey ${ config.apiKey }`
+        baseURL: config.hostname,
+        port: 443,
+        url: `/almaws/v1/users/${ userid }/loans?user_id_type=all_unique&item_barcode=${ barcode }`,
+        data: library_xml,
+        method: 'post',
+        headers: {
+            'Content-Type': `application/xml`,
+            'Authorization': `apikey ${ config.apiKey }`
         }
     }
 
