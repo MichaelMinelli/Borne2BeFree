@@ -1,0 +1,60 @@
+{
+    "name": "borne2befree-frontend",
+    "description": "Alma Self-Checkout tool that doesn't use CORS",
+    "version": "2.0.0",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/MichaelMinelli/Borne2BeFree.git"
+    },
+    "keywords": [
+        "alma"
+    ],
+    "bugs": {
+        "url": "https://github.com/MichaelMinelli/Borne2BeFree/issues"
+    },
+    "scripts": {
+        "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "tailwind:build": "NODE_ENV=production postcss src/tailwind.css -o src/tailwind.output.css",
+        "tailwind:dev": "postcss src/tailwind.css -o src/tailwind.output.css",
+        "prestart": "npm run tailwind:dev",
+        "prebuild": "npm run tailwind:build"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "dependencies": {
+        "@testing-library/jest-dom": "^6.6.3",
+        "@testing-library/react": "^16.3.0",
+        "@testing-library/user-event": "^14.6.1",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "react-scripts": "^5.0.1",
+        "web-vitals": "^5.0.1"
+    },
+    "devDependencies": {
+        "@fullhuman/postcss-purgecss": "^7.0.2",
+        "@tailwindcss/postcss": "^4.1.7",
+        "postcss": "^8.5.3",
+        "postcss-cli": "^11.0.1",
+        "tailwindcss": "^4.1.7"
+    }
+}
