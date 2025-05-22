@@ -5,32 +5,38 @@ const express = require('express')
 const axios = require('axios')
 const bodyParser = require('body-parser')
 const fs = require('fs');
+const cors = require('cors');
+
 
 // 
 // Setup server values
 // 
 const app = express()
 const jsonParser = bodyParser.json()
-const port = process.env.NODE_PORT || 3000;
+const port = process.env.NODE_PORT || 30992;
+
+app.use(cors()); //Allow CORS requests
+
 // 
 // Setup API settings
 // 
 const config = require('./config')
 let all_ip_set
+
 // ensure that the venn diagram of ips does not have intersections
 {
-    const all_ip_array = [].concat(...config.locations.map(l => l.permitIpAddresses))
+    const all_ip_array = [].concat(...config.libraries.map(l => l.permitIpAddresses))
     all_ip_set = new Set(all_ip_array)
     if ( all_ip_array.length !== all_ip_set.size ) {
-        throw ('Multiple locations are configured with the same ip address but that\'s not allowed')
+        throw ('Multiple libraries are configured with the same ip address but that\'s not allowed')
     }
 }
 // ensure that circ desks have different names
 {
-    const circDeskAndLibraryNames_array = config.locations.map(l => l.apiLibraryName + '_' + l.apiCircDesk)
+    const circDeskAndLibraryNames_array = config.libraries.map(l => l.apiLibraryName + '_' + l.apiCircDesk)
     const circDeskAndLibraryNames_set = new Set(circDeskAndLibraryNames_array)
     if ( circDeskAndLibraryNames_array.length !== circDeskAndLibraryNames_set.size ) {
-        throw ('Multiple locations are configured with the same name but that\'s not allowed')
+        throw ('Multiple libraries are configured with the same name but that\'s not allowed')
     }
 }
 
@@ -41,13 +47,13 @@ const libraryConfigFromIp = ip => {
             failureMessage: `Could not find your ip (${ ip }) in permitIpAddresses for any location`
         }
     } else {
-        return config.locations.find(location => location.permitIpAddresses.includes(ip))
+        return config.libraries.find(location => location.permitIpAddresses.includes(ip))
     }
 }
 // 
 // Routes
 // 
-app.use(express.static('client/build'))
+
 app.get('/users/:userId', (req, res) => {
     console.log('user id scan');
     log_session();
@@ -82,9 +88,9 @@ app.get('/whoami', (req, res) => {
                         })
     }
     return res.json({
-                        libraryLogo,
+                        logo: libraryLogo,
                         featureImage,
-                        libraryName,
+                        name: libraryName,
                         organizationName
                     })
 })
