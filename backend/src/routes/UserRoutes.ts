@@ -18,7 +18,7 @@ class UserRoutes implements RoutesManager {
     registerOnBackend(backend: Express) {
         backend.get('/whoami', SecurityMiddleware.check(false), this.whoami.bind(this) as RequestHandler);
         backend.get('/users/:userId', SecurityMiddleware.check(true), this.getUser.bind(this) as RequestHandler);
-        backend.get('/users/:userId/loans', SecurityMiddleware.check(true), this.requestLoan.bind(this) as RequestHandler);
+        backend.post('/users/:userId/loans', SecurityMiddleware.check(true), this.requestLoan.bind(this) as RequestHandler);
     }
 
     private async whoami(req: express.Request, res: express.Response) {
@@ -55,7 +55,7 @@ class UserRoutes implements RoutesManager {
         logger.info(req.body);
 
         logger.info(`Loan processing started ${ JSON.stringify(req.params) } and ${ JSON.stringify(req.query) } and ${ JSON.stringify(req.body) }`);
-        
+
         const loan = await AlmaHelper.requestLoan(req.session.profile!, req.params.userId, req.query.item_barcode as string);
         logger.info(loan);
 
