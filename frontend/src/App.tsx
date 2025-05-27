@@ -64,7 +64,7 @@ const App: React.FC = () => {
 
             currentUserBarcode.current = userBarcode;
         }
-    }, []);
+    }, [ loginFailureMessageTimeout ]);
 
 
     const doLogout = useCallback(() => {
@@ -80,7 +80,7 @@ const App: React.FC = () => {
 
         // Clear the timeouts
         window.clearTimeout(autoLogoutTimeout.current);
-    }, []);
+    }, [ autoLogoutTimeout ]);
 
     const doCheckoutBook = useCallback(async (bookBarcode: string) => {
         // Allow Logout by scanning logged user's barcode
@@ -130,7 +130,7 @@ const App: React.FC = () => {
             setShowCheckoutAlert(false);
             setBooksCheckedOut([ newBook ].concat(booksCheckedOut));
         }
-    }, []);
+    }, [ user, currentUserBarcode, checkoutFailureMessageTimeout ]);
 
     // Effect to handle the initial loading of the app (similar to old componentDidMount)
     useEffect(() => {
