@@ -26,7 +26,7 @@ async function login(userBarcode: string): Promise<LoginResult> {
         const lastName: string = user.pref_last_name || user.last_name;
 
         return {
-            name    : `${ firstName } ${ lastName }`,
+            name    : `${ firstName ?? '' } ${ lastName }`,
             loans   : user.loans.value,
             requests: user.requests.value,
             fines   : user.fees.value,
