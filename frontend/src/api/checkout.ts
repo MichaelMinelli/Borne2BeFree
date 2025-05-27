@@ -28,7 +28,8 @@ async function checkout(bookBarcode: string, userId: string): Promise<CheckoutRe
     }
 
     try {
-        const response = await fetch(getUrl(bookBarcode, userId));
+
+        const response = await fetch(getUrl(bookBarcode, userId), { method: 'POST' });
         const data = await response.json();
 
         if ( 'error' in data && data.error ) {
