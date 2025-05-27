@@ -1,0 +1,13 @@
+{
+    "watch"  : [
+        "nodemon.json",
+        "node_modules",
+        "src"
+    ],
+    "verbose": true,
+    "ext"    : ".ts,.js",
+    "ignore" : [
+        "src/config.example.js"
+    ],
+    "exec"   : "npm run lint; tsc --noEmit && npx tsx src/app.ts"
+}
