@@ -1,0 +1,16 @@
+@theme {
+    /* Primary Color : We use stone definition */
+    --color-stone-50  : #FFE5ED;
+    --color-stone-100 : #FFB3C9;
+    --color-stone-200 : #FF80A6;
+    --color-stone-300 : #FF4D82;
+    --color-stone-400 : #FF1A5E;
+    --color-stone-500 : #E60054;
+    --color-stone-600 : #D1004C;
+    --color-stone-700 : #C40049;
+    --color-stone-800 : #A8003F;
+    --color-stone-900 : #8C0035;
+    --color-stone-950 : #650022;
+
+    --color-secondary : #A98E7E;
+}

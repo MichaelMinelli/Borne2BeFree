@@ -25,10 +25,6 @@ const LogoutInstruction = () => {
     return <div className="text-center text-2xl font-bold text-gray-400 opacity-50">To log out, scan your ID again. </div>;
 };
 
-// This is the rgb value for tailwind's bg-blue-200 but with alpha
-// for the booktable if it expands into the white logo area
-const bg_blue_200_alpha_80 = 'rgba(226, 232, 240, 0.8)';
-
 const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
                                                            library,
                                                            user,
@@ -38,10 +34,10 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
                                                            books,
                                                            showAlert,
                                                            alertMessage
-                                                       }) => <div className="h-screen w-screen flex flex-col bg-gray-200">
+                                                       }) => <div className="h-screen w-screen flex flex-col bg-gray-100">
 
     {/* <!-- Header Bar --> */ }
-    <div className="shrink bg-blue-400 flex content-between items-center p-2 shadow-md" style={ { zIndex: 1 } }>
+    <div className="shrink bg-stone-700 flex content-between items-center p-2 shadow-md" style={ { zIndex: 1 } }>
 
         {/* <!-- Library Name --> */ }
         <div className="flex-auto text-gray-100 m-2">
@@ -57,7 +53,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
 
         {/* <!-- User Details --> */ }
         <div className="flex-auto flex flex-row justify-end items-center">
-            <UserCircleIcon classes="w-10 h-10 m-2 text-blue-100" />
+            <UserCircleIcon classes="w-10 h-10 m-2 text-stone-100" />
 
             <div className="text-2xl mr-4 text-white">
                 { user.name }
@@ -85,7 +81,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
 
         {/* <!-- Book Table --> */ }
         <div className="flex-auto w-3/4 px-8 mt-2 z-10">
-            <div className="p-5 rounded" style={ { background: bg_blue_200_alpha_80 } }>
+            <div className="p-5 rounded ">
                 { books.length === 0 ? <LogoutInstruction /> : null }
                 <BookTable books={ books } rowLimit={ 5 } />
             </div>
@@ -97,8 +93,8 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
         { library.logo && (<div className="w-full bg-white flex flex-row justify-center pt-2">
             <img src={ library.logo } className="h-24 z-0" alt={ `${ library } at ${ library.organizationName } logo` } />
         </div>) }
-        <div className="bg-blue-400" style={ { width: (100 - timeout / timeLimit * 100) + '%' } }>
-            <div className="text-blue-100 uppercase text-sm font-bold px-4 py-1 whitespace-nowrap">
+        <div className="bg-stone-700" style={ { width: (100 - timeout / timeLimit * 100) + '%' } }>
+            <div className="text-stone-200 uppercase text-sm font-bold px-4 py-1 whitespace-nowrap">
                 Logging out in { Math.round(timeout) } seconds
             </div>
         </div>
