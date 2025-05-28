@@ -1,6 +1,8 @@
-import * as process   from 'process';
-import userConfigFile from '../config.js';
-import { UserConfig } from '../types/UserConfig';
+import * as process    from 'process';
+import userConfigFile  from '../config.js';
+import { Library }     from '../types/Library';
+import { Zone }        from '../types/Zone';
+import { UserLibrary } from '../types/UserLibrary';
 
 
 class Config {
@@ -12,7 +14,7 @@ class Config {
         port: number
     };
 
-    public readonly userConfig: UserConfig;
+    public readonly libraries: Array<Library>;
     public allIpSet: Set<string> = new Set<string>();
 
     constructor() {
@@ -24,7 +26,13 @@ class Config {
             port: Number(process.env.API_PORT || 30992)
         };
 
-        this.userConfig = userConfigFile;
+        this.libraries = userConfigFile.zones.flatMap((zone: Zone) => {
+            return zone.libraries.map((library: UserLibrary) => {
+                return {
+                    ...zone, ...library
+                };
+            });
+        });
     }
 }
 

@@ -1,10 +1,8 @@
-import { Library } from './Library';
+import { Zone } from './Zone';
 
 
 interface UserConfig {
-    hostname: string;
-    apiKey: string;
-    libraries: Array<Library>;
+    zones: Array<Zone>;
 };
 
 export type { UserConfig };

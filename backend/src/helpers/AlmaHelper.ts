@@ -1,17 +1,16 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
-import Config                                    from '../config/Config';
 import logger                                    from '../logging/WinstonLogger';
 import { Library }                               from '../types/Library';
 
 
 class AlmaHelper {
-    public async getUser(id: string): Promise<unknown> {
+    public async getUser(library: Library, id: string): Promise<unknown> {
         const options: AxiosRequestConfig = {
-            baseURL: Config.userConfig.hostname,
+            baseURL: library.hostname,
             url    : '/almaws/v1/users/' + id + '?expand=loans,requests,fees&format=json',
             method : 'get',
             headers: {
-                Authorization: `apikey ${ Config.userConfig.apiKey }`
+                Authorization: `apikey ${ library.apiKey }`
             }
         };
 
@@ -25,15 +24,15 @@ class AlmaHelper {
     }
 
     public async requestLoan(library: Library, userId: string, barcode: string): Promise<unknown> {
-        const library_xml = `<?xml version='1.0' encoding='UTF-8'?><item_loan><circ_desk>${ library.apiCircDesk }</circ_desk><library>${ library.apiLibraryName }</library></item_loan>`;
+        const library_xml = `<?xml version='1.0' encoding='UTF-8'?><item_loan><circ_desk>${ library.apiCircDesk }</circ_desk><library>${ library.apiName }</library></item_loan>`;
         const options: AxiosRequestConfig = {
-            baseURL: Config.userConfig.hostname,
+            baseURL: library.hostname,
             url    : `/almaws/v1/users/${ userId }/loans?user_id_type=all_unique&item_barcode=${ barcode }`,
             data   : library_xml,
             method : 'post',
             headers: {
                 'Content-Type' : `application/xml`,
-                'Authorization': `apikey ${ Config.userConfig.apiKey }`
+                'Authorization': `apikey ${ library.apiKey }`
             }
         };
 

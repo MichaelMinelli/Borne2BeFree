@@ -30,17 +30,17 @@ class UserRoutes implements RoutesManager {
         }
 
         return req.session.sendResponse(res, StatusCodes.OK, {
-            logo            : req.session.profile.libraryLogoUrl,
-            featureImage    : req.session.profile.featureImageUrl,
-            name            : req.session.profile.apiLibraryName,
-            organizationName: req.session.profile.organizationNameString
+            logo            : req.session.profile.logo,
+            featureImage    : req.session.profile.featureImage,
+            name            : req.session.profile.apiName,
+            organizationName: req.session.profile.organization
         });
     }
 
     private async getUser(req: express.Request, res: express.Response) {
         logger.info(`Retrieving user with id ${ req.params.userId }.`);
 
-        const user = await AlmaHelper.getUser(req.params.userId);
+        const user = await AlmaHelper.getUser(req.session.profile!, req.params.userId);
         if ( !user ) {
             return req.session.sendResponse(res, StatusCodes.OK, { error: 'something went wrong with the lookup' });
         }

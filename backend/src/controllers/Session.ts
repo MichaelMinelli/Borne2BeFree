@@ -18,7 +18,7 @@ class Session {
         const ipAddress = req.ip?.split(':').pop();
 
         if ( ipAddress && Config.allIpSet.has(ipAddress) ) {
-            this.profile = Config.userConfig.libraries.find((location: Library) => location.permitIpAddresses.includes(ipAddress));
+            this.profile = Config.libraries.find((location: Library) => location.permitIpAddresses.includes(ipAddress));
         }
     }
 
