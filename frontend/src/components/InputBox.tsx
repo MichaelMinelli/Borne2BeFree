@@ -33,7 +33,7 @@ const InputBox: React.FC<InputBoxProps> = ({
         }
     }, [ onClick ]);
 
-    return <div className="flex bg-gray-50 rounded-lg border-blue-400 border-4">
+    return <div className="flex bg-gray-50 rounded-lg border-stone-700 border-4">
         <div className="flex-none flex items-center m-5">
             <Icon classes={ 'w-8 h-8' } />
         </div>
@@ -42,7 +42,7 @@ const InputBox: React.FC<InputBoxProps> = ({
                 clickCallback().then();
             }
         } } />
-        <button onClick={ clickCallback } href="#" className="flex-none flex items-center m-2 p-2 rounded cursor-pointer bg-blue-400 text-gray-200 hover:bg-blue-500 hover:text-white hover:shadow-md active:bg-blue-600">
+        <button onClick={ clickCallback } href="#" className="flex-none flex items-center m-2 p-2 rounded cursor-pointer bg-stone-700 text-gray-200 hover:bg-stone-800 hover:text-white hover:shadow-md active:bg-stone-900">
             <ArrowCircleLeftIcon classes="w-10 h-10" />
         </button>
     </div>;
