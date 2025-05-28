@@ -1,0 +1,31 @@
+{
+    "alert"          : {
+        "findingUser": "Recherche de l'utilisateur...",
+        "checkingOut": "Vérification de l'article..."
+    },
+    "libraryNotFound": "Bibliothèque introuvable",
+    "bookTable"      : {
+        "columns": {
+            "dueDate": "Date d'échéance",
+            "book"   : "Livre"
+        },
+        "rows"   : {
+            "others": "et {{count}} autres..."
+        }
+    },
+    "checkout"       : {
+        "pills"                : {
+            "loans"   : "Emprunts",
+            "requests": "Demandes",
+            "fees"    : "Amendes & Frais"
+        },
+        "scanPlaceholder"      : "Scannez votre prochain article",
+        "logoutInstructions"   : "Pour vous déconnecter, scannez à nouveau votre carte de bibliothèque.",
+        "logoutCountdown_one"  : "Déconnexion dans 1 seconde",
+        "logoutCountdown_other": "Déconnexion dans {{count}} secondes"
+    },
+    "login"          : {
+        "title"           : "Borne2BeFree - {{libraryName}}",
+        "loginPlaceholder": "Scannez votre carte"
+    }
+}

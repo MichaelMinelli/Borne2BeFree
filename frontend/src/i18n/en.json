@@ -1,0 +1,31 @@
+{
+    "alert"          : {
+        "findingUser": "Finding user...",
+        "checkingOut": "Checking out item..."
+    },
+    "libraryNotFound": "Library not found",
+    "bookTable"      : {
+        "columns": {
+            "dueDate": "Due Date",
+            "book"   : "Book"
+        },
+        "rows"   : {
+            "others": "and {{count}} others..."
+        }
+    },
+    "checkout"       : {
+        "pills"                : {
+            "loans"   : "Loans",
+            "requests": "Requests",
+            "fees"    : "Fines & Fees"
+        },
+        "scanPlaceholder"      : "Scan your next item",
+        "logoutInstructions"   : "To log out, scan your ID again.",
+        "logoutCountdown_one"  : "Logging out in 1 second",
+        "logoutCountdown_other": "Logging out in {{count}} seconds"
+    },
+    "login"          : {
+        "title"           : "Borne2BeFree - {{libraryName}}",
+        "loginPlaceholder": "Scan your ID"
+    }
+}

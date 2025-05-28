@@ -4,12 +4,13 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import LoginLayout    from './components/LoginLayout';
 import CheckoutLayout from './components/CheckoutLayout';
 
-import whoami           from './api/whoami';
-import login            from './api/login';
-import checkout         from './api/checkout';
-import type { Book }    from './types/Book.ts';
-import type { User }    from './types/User.ts';
-import type { Library } from './types/Library.ts';
+import whoami             from './api/whoami';
+import login              from './api/login';
+import checkout           from './api/checkout';
+import type { Book }      from './types/Book.ts';
+import type { User }      from './types/User.ts';
+import type { Library }   from './types/Library.ts';
+import { useTranslation } from 'react-i18next';
 
 
 const LOGIN_ALERT_TIMEOUT_SECONDS = 10;
@@ -24,6 +25,8 @@ const DEFAULT_USER_VALUE = {
 };
 
 const App: React.FC = () => {
+    const { t } = useTranslation();
+
     const [ loading, setLoading ] = useState<boolean>(true);
     const [ library, setLibrary ] = useState<Library | undefined>(undefined);
     const [ loggedIn, setLoggedIn ] = useState<boolean>(false);
@@ -45,7 +48,7 @@ const App: React.FC = () => {
 
     const doLogin = useCallback(async (userBarcode: string) => {
         setShowLoginAlert(true);
-        setLoginAlertMessage('Finding user.');
+        setLoginAlertMessage(t('alert.findingUser'));
 
         const newUser = await login(userBarcode);
         if ( 'failureMessage' in newUser ) {
@@ -104,7 +107,7 @@ const App: React.FC = () => {
         }
 
         setShowCheckoutAlert(true);
-        setCheckoutAlertMessage('Checking out item.');
+        setCheckoutAlertMessage(t('alert.checkingOut'));
 
         const checkedOutBarcodes = booksCheckedOut.map(b => b.barcode);
 
@@ -177,7 +180,7 @@ const App: React.FC = () => {
     } else if ( library ) {
         return <LoginLayout library={ library } login={ doLogin } showAlert={ showLoginAlert } alertMessage={ loginAlertMessage } />;
     } else {
-        return <div>Library not found</div>;
+        return <div>{ t('libraryNotFound') }</div>;
     }
 };
 

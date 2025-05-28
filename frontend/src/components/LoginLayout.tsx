@@ -3,6 +3,8 @@ import AlertBox               from './AlertBox.js';
 import { IdentificationIcon } from './Icons.js';
 import type { Library }       from '../types/Library.ts';
 import React                  from 'react';
+import { useTranslation }     from 'react-i18next';
+import LanguageDopdown        from './LanguageDopdown.tsx';
 
 
 interface LoginLayoutProps {
@@ -19,6 +21,9 @@ const LoginLayout: React.FC<LoginLayoutProps> = ({
                                                      alertMessage,
                                                      showAlert
                                                  }) => {
+
+    const { t } = useTranslation();
+
     return <div className="h-screen w-screen flex flex-row">
         { library.featureImage && <div className="lg:flex-auto bg-blue-100 text-gray-200" style={ {
             background    : `url(${ library.featureImage }) center center`,
@@ -27,7 +32,7 @@ const LoginLayout: React.FC<LoginLayoutProps> = ({
         <div className="flex-auto bg-gray-200 flex flex-col justify-center items-center">
             <div className="grow flex flex-col justify-end mb-8 text-center">
                 <div className="font-light text-3xl">
-                    Self-Checkout for { library.name }
+                    { t('login.title', { libraryName: library.name }) }
                 </div>
                 <div className="font-bold text-lg uppercase">
                     { library.organizationName }
@@ -35,16 +40,16 @@ const LoginLayout: React.FC<LoginLayoutProps> = ({
             </div>
 
             <div className="shrink flex-row">
-                <InputBox placeholder={ 'Scan your ID' } Icon={ IdentificationIcon } onClick={ login } autoFocus={ true } />
+                <InputBox placeholder={ t('login.loginPlaceholder') } Icon={ IdentificationIcon } onClick={ login } autoFocus={ true } />
             </div>
-            <div className="shrink">
+            { showAlert && <div className="shrink">
                 <AlertBox visible={ showAlert }>
                     { alertMessage }
                 </AlertBox>
             </div>
             <div className="grow flex flex-col justify-end w-full">
                 { library.logo && (<div className="w-full bg-white flex flex-row justify-center">
-                    <img src={ library.logo } className="max-h-32" alt={ `${ library } at ${ library.organizationName } logo` } />
+                    <img src={ library.logo } className="max-h-32" alt={ `${ library } - ${ library.organizationName } logo` } />
                 </div>) }
             </div>
         </div>
