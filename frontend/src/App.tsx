@@ -40,7 +40,7 @@ const App: React.FC = () => {
     // Timeouts for alerts
     const loginFailureMessageTimeout = useRef<number | undefined>(undefined);
     const checkoutFailureMessageTimeout = useRef<number | undefined>(undefined);
-    const autoLogoutTimeout = useRef<number | undefined>(undefined);
+    const autoLogoutInterval = useRef<number | undefined>(undefined);
 
 
     const doLogin = useCallback(async (userBarcode: string) => {
@@ -62,6 +62,21 @@ const App: React.FC = () => {
             setLogoutTimeLeft(LOGOUT_TIME_LIMIT);
             setLoggedIn(true);
 
+
+            autoLogoutInterval.current = window.setInterval(() => {
+                setLogoutTimeLeft(prevTime => {
+                    const newLogoutTimeLeft: number = prevTime - 0.01;
+
+                    if ( newLogoutTimeLeft <= 0 ) {
+                        doLogout();
+                        return LOGOUT_TIME_LIMIT;
+                    }
+
+                    return newLogoutTimeLeft;
+                });
+
+            }, 10);
+
             currentUserBarcode.current = userBarcode;
         }
     }, [ loginFailureMessageTimeout ]);
@@ -79,8 +94,8 @@ const App: React.FC = () => {
         setBooksCheckedOut([]);
 
         // Clear the timeouts
-        window.clearTimeout(autoLogoutTimeout.current);
-    }, [ autoLogoutTimeout ]);
+        window.clearTimeout(autoLogoutInterval.current);
+    }, [ autoLogoutInterval ]);
 
     const doCheckoutBook = useCallback(async (bookBarcode: string) => {
         // Allow Logout by scanning logged user's barcode
@@ -147,21 +162,10 @@ const App: React.FC = () => {
             }
         });
 
-        autoLogoutTimeout.current = window.setInterval(() => {
-            const newLogoutTimeLeft: number = logoutTimeLeft - 0.01;
-
-            if ( newLogoutTimeLeft <= 0 ) {
-                doLogout();
-                return;
-            }
-
-            setLogoutTimeLeft(newLogoutTimeLeft);
-        }, 10);
-
         return () => {
             window.clearTimeout(loginFailureMessageTimeout.current);
             window.clearTimeout(checkoutFailureMessageTimeout.current);
-            window.clearInterval(autoLogoutTimeout.current);
+            window.clearInterval(autoLogoutInterval.current);
         };
     }, []);
 

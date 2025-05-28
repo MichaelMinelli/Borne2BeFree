@@ -27,9 +27,9 @@ const InputBox: React.FC<InputBoxProps> = ({
     const clickCallback = useCallback(async () => {
         const value = textInput.current?.value;
         if ( textInput.current && value ) {
-            await onClick(value);
             textInput.current.value = '';
             textInput.current.focus();
+            await onClick(value);
         }
     }, [ onClick ]);
 
