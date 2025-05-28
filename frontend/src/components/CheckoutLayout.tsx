@@ -64,8 +64,12 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
                 <PillBox title={ t('checkout.pills.loans') } value={ String(user.loans) } />
                 <PillBox title={ t('checkout.pills.requests') } value={ String(user.requests) } />
                 <PillBox title={ t('checkout.pills.fees') } value={ '$' + user.fines } />
+
+                <div className="ml-8 mr-4 ">
+                    <LanguageDopdown light={ false } />
+                </div>
+            </div>
         </div>
-    </div>
 
         {/* <!-- Main Content --> */ }
         <div className="flex-auto flex flex-col justify-center items-center">

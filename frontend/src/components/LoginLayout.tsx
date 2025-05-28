@@ -46,6 +46,9 @@ const LoginLayout: React.FC<LoginLayoutProps> = ({
                 <AlertBox visible={ showAlert }>
                     { alertMessage }
                 </AlertBox>
+            </div> }
+            <div className="shrink flex-row mt-4">
+                <LanguageDopdown />
             </div>
             <div className="grow flex flex-col justify-end w-full">
                 { library.logo && (<div className="w-full bg-white flex flex-row justify-center">
