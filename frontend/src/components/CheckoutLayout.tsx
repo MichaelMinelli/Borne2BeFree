@@ -94,7 +94,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
             <img src={ library.logo } className="h-24 z-0" alt={ `${ library } at ${ library.organizationName } logo` } />
         </div>) }
         <div className="bg-stone-700" style={ { width: (100 - timeout / timeLimit * 100) + '%' } }>
-            <div className="text-stone-200 uppercase text-sm font-bold px-4 py-1 whitespace-nowrap">
+            <div className="text-stone-100 uppercase text-sm font-bold px-4 py-1 whitespace-nowrap">
                 Logging out in { Math.round(timeout) } seconds
             </div>
         </div>
