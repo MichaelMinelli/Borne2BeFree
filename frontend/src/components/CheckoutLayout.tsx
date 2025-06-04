@@ -9,6 +9,7 @@ import type { Library }                 from '../types/Library.ts';
 import React                            from 'react';
 import { useTranslation }               from 'react-i18next';
 import LanguageDopdown                  from './LanguageDopdown.tsx';
+import type { Alert }                   from '../types/Alert.ts';
 
 
 interface CheckoutLayoutProps {
@@ -19,7 +20,7 @@ interface CheckoutLayoutProps {
     checkoutBook: (bookBarcode: string) => Promise<void>;
     books: Array<Book>;
     showAlert: boolean;
-    alertMessage: string;
+    alert: Alert;
 }
 
 
@@ -31,7 +32,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
                                                            checkoutBook,
                                                            books,
                                                            showAlert,
-                                                           alertMessage
+                                                           alert
                                                        }) => {
 
     const { t } = useTranslation();
@@ -80,8 +81,8 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
             </div>
 
             {/* <!-- Alert Dialog --> */ }
-            <AlertBox visible={ showAlert }>
-                { alertMessage }
+            <AlertBox visible={ showAlert } params={ alert }>
+                { alert.message }
             </AlertBox>
 
             {/* <!-- Book Table --> */ }
