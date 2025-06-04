@@ -11,6 +11,7 @@ import type { Book }      from './types/Book.ts';
 import type { User }      from './types/User.ts';
 import type { Library }   from './types/Library.ts';
 import { useTranslation } from 'react-i18next';
+import type { Alert }     from './types/Alert.ts';
 
 
 const LOGIN_ALERT_TIMEOUT_SECONDS = 10;
@@ -31,11 +32,19 @@ const App: React.FC = () => {
     const [ library, setLibrary ] = useState<Library | undefined>(undefined);
     const [ loggedIn, setLoggedIn ] = useState<boolean>(false);
     const [ user, setUser ] = useState<User>(DEFAULT_USER_VALUE);
-    const [ loginAlertMessage, setLoginAlertMessage ] = useState<string>('');
+    const [ loginAlert, setLoginAlert ] = useState<Alert>({
+                                                              message  : '',
+                                                              isWarning: false,
+                                                              color    : 'blue'
+                                                          });
     const [ showLoginAlert, setShowLoginAlert ] = useState<boolean>(false);
     const [ logoutTimeLeft, setLogoutTimeLeft ] = useState<number>(LOGOUT_TIME_LIMIT);
     const [ showCheckoutAlert, setShowCheckoutAlert ] = useState<boolean>(false);
-    const [ checkoutAlertMessage, setCheckoutAlertMessage ] = useState<string>('');
+    const [ checkoutAlert, setCheckoutAlert ] = useState<Alert>({
+                                                                    message  : '',
+                                                                    isWarning: false,
+                                                                    color    : 'blue'
+                                                                });
     const [ booksCheckedOut, setBooksCheckedOut ] = useState<Book[]>([]);
 
     const currentUserBarcode = useRef<string | undefined>(undefined);
@@ -48,11 +57,19 @@ const App: React.FC = () => {
 
     const doLogin = useCallback(async (userBarcode: string) => {
         setShowLoginAlert(true);
-        setLoginAlertMessage(t('alert.findingUser'));
+        setLoginAlert({
+                          message  : t('alert.findingUser'),
+                          isWarning: false,
+                          color    : 'blue'
+                      });
 
         const newUser = await login(userBarcode);
         if ( 'failureMessage' in newUser ) {
-            setLoginAlertMessage(newUser.failureMessage);
+            setLoginAlert({
+                              message  : newUser.failureMessage,
+                              isWarning: true,
+                              color    : 'red'
+                          });
             setShowLoginAlert(true);
 
             window.clearTimeout(loginFailureMessageTimeout.current);
@@ -89,11 +106,19 @@ const App: React.FC = () => {
         // Clear the states
         setLoggedIn(false);
         setUser(DEFAULT_USER_VALUE);
-        setLoginAlertMessage('');
+        setLoginAlert({
+                          message  : '',
+                          isWarning: false,
+                          color    : 'blue'
+                      });
         setShowLoginAlert(false);
         setLogoutTimeLeft(LOGOUT_TIME_LIMIT);
         setShowCheckoutAlert(false);
-        setCheckoutAlertMessage('');
+        setCheckoutAlert({
+                             message  : '',
+                             isWarning: false,
+                             color    : 'blue'
+                         });
         setBooksCheckedOut([]);
 
         // Clear the timeouts
@@ -107,7 +132,11 @@ const App: React.FC = () => {
         }
 
         setShowCheckoutAlert(true);
-        setCheckoutAlertMessage(t('alert.checkingOut'));
+        setCheckoutAlert({
+                             message  : t('alert.checkingOut'),
+                             isWarning: false,
+                             color    : 'blue'
+                         });
 
         const checkedOutBarcodes = booksCheckedOut.map(b => b.barcode);
 
@@ -134,8 +163,12 @@ const App: React.FC = () => {
         if ( 'failureMessage' in newBook ) {
             // Error checking out book
             setLogoutTimeLeft(LOGOUT_TIME_LIMIT);
-            setShowCheckoutAlert(false);
-            setCheckoutAlertMessage(newBook.failureMessage);
+            setShowCheckoutAlert(true);
+            setCheckoutAlert({
+                                 message  : newBook.failureMessage,
+                                 isWarning: true,
+                                 color    : 'red'
+                             });
 
             window.clearTimeout(checkoutFailureMessageTimeout.current);
 
@@ -176,9 +209,9 @@ const App: React.FC = () => {
         // return <LoadingLayout />
         return <div>Loading</div>;
     } else if ( loggedIn && library ) {
-        return <CheckoutLayout library={ library } user={ user } timeout={ logoutTimeLeft } timeLimit={ LOGOUT_TIME_LIMIT } books={ booksCheckedOut } checkoutBook={ doCheckoutBook } showAlert={ showCheckoutAlert } alertMessage={ checkoutAlertMessage } />;
+        return <CheckoutLayout library={ library } user={ user } timeout={ logoutTimeLeft } timeLimit={ LOGOUT_TIME_LIMIT } books={ booksCheckedOut } checkoutBook={ doCheckoutBook } showAlert={ showCheckoutAlert } alert={ checkoutAlert } />;
     } else if ( library ) {
-        return <LoginLayout library={ library } login={ doLogin } showAlert={ showLoginAlert } alertMessage={ loginAlertMessage } />;
+        return <LoginLayout library={ library } login={ doLogin } showAlert={ showLoginAlert } alert={ loginAlert } />;
     } else {
         return <div>{ t('libraryNotFound') }</div>;
     }

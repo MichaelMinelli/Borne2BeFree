@@ -5,12 +5,13 @@ import type { Library }       from '../types/Library.ts';
 import React                  from 'react';
 import { useTranslation }     from 'react-i18next';
 import LanguageDopdown        from './LanguageDopdown.tsx';
+import type { Alert }         from '../types/Alert.ts';
 
 
 interface LoginLayoutProps {
     library: Library;
     login: (userBarcode: string) => Promise<void>;
-    alertMessage: string;
+    alert: Alert;
     showAlert: boolean;
 }
 
@@ -18,7 +19,7 @@ interface LoginLayoutProps {
 const LoginLayout: React.FC<LoginLayoutProps> = ({
                                                      library,
                                                      login,
-                                                     alertMessage,
+                                                     alert,
                                                      showAlert
                                                  }) => {
 
@@ -43,8 +44,8 @@ const LoginLayout: React.FC<LoginLayoutProps> = ({
                 <InputBox placeholder={ t('login.loginPlaceholder') } Icon={ IdentificationIcon } onClick={ login } autoFocus={ true } />
             </div>
             { showAlert && <div className="shrink">
-                <AlertBox visible={ showAlert }>
-                    { alertMessage }
+                <AlertBox visible={ showAlert } params={ alert }>
+                    { alert.message }
                 </AlertBox>
             </div> }
             <div className="shrink flex-row mt-4">
