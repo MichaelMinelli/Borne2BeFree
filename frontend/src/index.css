@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 @import './theme.css';
 
+@source inline("{hover:,}bg-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone}-{50,{100..900..100},950}");
+@source inline("{hover:,}border-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone}-{50,{100..900..100},950}");
+@source inline("{hover:,}text-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone}-{50,{100..900..100},950}");
+
 body {
     margin                  : 0;
     font-family             : -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
