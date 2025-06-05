@@ -9,7 +9,7 @@ i18n
     .use(LanguageDetector)
     .init({
               supportedLngs: Object.values(SupportedLanguages).map(lang => lang.iso639),
-              resources    : Object.fromEntries(Object.entries(SupportedLanguages).map(([ k, v ], i) => [ k, v.resource ])),
+              resources    : Object.fromEntries(Object.entries(SupportedLanguages).map(([ k, v ]) => [ k, v.resource ])),
               fallbackLng  : 'fr',
               interpolation: {
                   escapeValue: false
