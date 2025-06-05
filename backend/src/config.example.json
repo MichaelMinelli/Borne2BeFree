@@ -1,0 +1,34 @@
+// Rename this file to `config.json` and populate the values for your institution
+{
+    "zones": [
+        {
+            "name"     : "Zone Name",
+            "hostname" : "https://api-na.hosted.exlibrisgroup.com",
+            "apiKey"   : "Path to your API key file",
+            "libraries": [
+                {
+                    "logo"             : "url/to/image.jpg",
+                    "featureImage"     : "url/to/image.jpg",
+                    "name"             : "Friendly Library Name",
+                    "organization"     : "Friendly Organization Name",
+                    "apiName"          : "XXXXX",
+                    "apiCircDesk"      : "XXXXXXXXXXXXXXXX",
+                    "permitIpAddresses": [
+                        "127.0.0.1"
+                    ]
+                },
+                {
+                    "logo"             : "url/to/image.jpg",
+                    "featureImage"     : "url/to/image.jpg",
+                    "name"             : "Friendly Library Name",
+                    "organization"     : "Friendly Organization Name",
+                    "apiName"          : "XXXXX",
+                    "apiCircDesk"      : "XXXXXXXXXXXXXXXX",
+                    "permitIpAddresses": [
+                        "127.0.0.2"
+                    ]
+                }
+            ]
+        }
+    ]
+}

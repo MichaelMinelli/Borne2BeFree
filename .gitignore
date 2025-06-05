@@ -346,4 +346,5 @@ tags
 # Persistent undo
 [._]*.un~
 
-config.js
+config.json
+*.apiKey
