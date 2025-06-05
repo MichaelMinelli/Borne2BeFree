@@ -184,7 +184,6 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
-.env*
 .flaskenv*
 !.env.project
 !.env.vault
@@ -346,4 +345,6 @@ tags
 # Persistent undo
 [._]*.un~
 
-config.js
+config.json
+config.prod.json
+*.apiKey

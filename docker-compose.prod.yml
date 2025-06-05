@@ -1,0 +1,71 @@
+services:
+    api:
+        container_name: api
+        build:
+            context: ./
+            dockerfile: Dockerfile_Backend
+        environment:
+            TZ: 'Europe/Zurich'
+            LOGS_FOLDER: '/logs'
+            USER_CONFIG_FILE_PATH: '/config.json'
+        volumes:
+            - logs:/logs
+        networks:
+            borne2befree:
+                aliases:
+                    - api
+        configs:
+            -   source: user_config
+                target: /config.json
+        # List of secrets containing API keys
+        secrets:
+            - spApiKey
+            - elpApiKey
+        restart: always
+
+    frontend:
+        container_name: frontend
+        build:
+            context: ./
+            dockerfile: Dockerfile_Frontend
+        networks:
+            borne2befree:
+                aliases:
+                    - frontend
+        restart: always
+        depends_on:
+            - api
+
+    proxy:
+        container_name: proxy
+        build:
+            context: ./
+            dockerfile: Dockerfile_Proxy
+        networks:
+            borne2befree:
+                aliases:
+                    - proxy
+        ports:
+            - "80:80"
+            - "443:443"
+        restart: always
+        depends_on:
+            - api
+            - frontend
+
+volumes:
+    logs:
+
+networks:
+    borne2befree:
+
+configs:
+    user_config:
+        file: ./backend/src/config.prod.json
+
+# Secrets containing API keys
+secrets:
+    spApiKey:
+        file: ./backend/src/sp.apiKey
+    elpApiKey:
+        file: ./backend/src/elp.apiKey

@@ -1,0 +1,44 @@
+ARG BUILD_DEPLOY_WORKDIR=/app
+
+
+######################################################################## Build stage
+FROM node:24-bullseye AS builder
+LABEL maintainer="Michaël Minelli <borne2befree@mail.minelli.swiss>"
+LABEL Description="API of Borne2BeFree - Build stage"
+
+ARG BUILD_DEPLOY_WORKDIR
+
+# Create app directory
+ADD backend/ ${BUILD_DEPLOY_WORKDIR}/
+
+WORKDIR ${BUILD_DEPLOY_WORKDIR}
+
+RUN rm -rf node_modules
+
+# Install app dependencies
+RUN npm install
+
+# Build app
+RUN npm run build
+
+
+
+######################################################################## Run stage
+FROM node:24-bullseye
+LABEL maintainer="Michaël Minelli <borne2befree@mail.minelli.swiss>"
+LABEL Description="API of Borne2BeFree - Run stage"
+
+ARG BUILD_DEPLOY_WORKDIR
+
+RUN mkdir -p ${BUILD_DEPLOY_WORKDIR}
+
+WORKDIR ${BUILD_DEPLOY_WORKDIR}
+
+COPY --from=builder ${BUILD_DEPLOY_WORKDIR}/node_modules ./node_modules
+COPY --from=builder ${BUILD_DEPLOY_WORKDIR}/package*.json ./
+COPY --from=builder ${BUILD_DEPLOY_WORKDIR}/dist ./dist
+
+EXPOSE 30992
+
+CMD [  "npm", "run", "start:prod" ]
+#ENTRYPOINT ["tail", "-f", "/dev/null"]
