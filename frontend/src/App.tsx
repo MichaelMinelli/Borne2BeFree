@@ -16,7 +16,7 @@ import type { Alert }     from './types/Alert.ts';
 
 const LOGIN_ALERT_TIMEOUT_SECONDS = 10;
 const CHECKOUT_ALERT_TIMEOUT_SECONDS = 2;
-const LOGOUT_TIME_LIMIT = 60;
+const LOGOUT_TIME_LIMIT = 6000;
 const DEFAULT_USER_VALUE = {
     name    : '',
     loans   : 0,
@@ -209,7 +209,7 @@ const App: React.FC = () => {
         // return <LoadingLayout />
         return <div>Loading</div>;
     } else if ( loggedIn && library ) {
-        return <CheckoutLayout library={ library } user={ user } timeout={ logoutTimeLeft } timeLimit={ LOGOUT_TIME_LIMIT } books={ booksCheckedOut } checkoutBook={ doCheckoutBook } showAlert={ showCheckoutAlert } alert={ checkoutAlert } />;
+        return <CheckoutLayout library={ library } user={ user } timeout={ logoutTimeLeft } timeLimit={ LOGOUT_TIME_LIMIT } books={ booksCheckedOut } checkoutBook={ doCheckoutBook } logout={ doLogout } showAlert={ showCheckoutAlert } alert={ checkoutAlert } />;
     } else if ( library ) {
         return <LoginLayout library={ library } login={ doLogin } showAlert={ showLoginAlert } alert={ loginAlert } />;
     } else {

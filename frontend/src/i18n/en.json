@@ -20,6 +20,7 @@
             "fees"    : "Fines & Fees"
         },
         "scanPlaceholder"      : "Scan your next item",
+        "logout"               : "Logout",
         "logoutInstructions"   : "To log out, scan your ID again.",
         "logoutCountdown_one"  : "Logging out in 1 second",
         "logoutCountdown_other": "Logging out in {{count}} seconds"

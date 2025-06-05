@@ -18,6 +18,7 @@ interface CheckoutLayoutProps {
     timeout: number;
     timeLimit: number;
     checkoutBook: (bookBarcode: string) => Promise<void>;
+    logout: () => void;
     books: Array<Book>;
     showAlert: boolean;
     alert: Alert;
@@ -30,6 +31,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
                                                            timeout,
                                                            timeLimit,
                                                            checkoutBook,
+                                                           logout,
                                                            books,
                                                            showAlert,
                                                            alert
@@ -87,9 +89,12 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
 
             {/* <!-- Book Table --> */ }
             <div className="flex-auto w-3/4 px-8 mt-2 z-10">
-                <div className="p-5 rounded ">
-                    { books.length === 0 ? <div className="text-center text-2xl font-bold text-gray-400 opacity-50">{ t('checkout.logoutInstructions') }</div> : null }
+                <div className="p-5 rounded content-center">
                     <BookTable books={ books } rowLimit={ 5 } />
+                    <div className="text-center text-2xl font-bold text-gray-400 opacity-50">
+                        { books.length === 0 ? <>{ t('checkout.logoutInstructions') }<br /></> : null }
+                        <button type="button" onClick={ logout } className="mt-5 cursor-pointer text-stone-900 hover:text-white border border-stone-700 hover:bg-stone-800 bg-stone-50 focus:ring-4 focus:outline-none focus:ring-stone-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">{ t('checkout.logout') }</button>
+                    </div>
                 </div>
             </div>
         </div>

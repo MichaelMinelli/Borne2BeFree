@@ -20,6 +20,7 @@
             "fees"    : "Amendes & Frais"
         },
         "scanPlaceholder"      : "Scannez votre prochain article",
+        "logout"               : "Déconnexion",
         "logoutInstructions"   : "Pour vous déconnecter, scannez à nouveau votre carte de bibliothèque.",
         "logoutCountdown_one"  : "Déconnexion dans 1 seconde",
         "logoutCountdown_other": "Déconnexion dans {{count}} secondes"
