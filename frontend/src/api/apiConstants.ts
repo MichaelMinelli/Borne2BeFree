@@ -1,16 +1,12 @@
 const protocol: string = window.location.protocol + '//';
 const hostname: string = window.location.hostname;
-const port: string = 30992;
 
-function buildUrl(protocol: string, hostname: string, port?: string): string {
-    const baseComponents = [ protocol, hostname ];
-    if ( port ) {
-        baseComponents.push(':' + port);
-    }
+function buildUrl(protocol: string, hostname: string): string {
+    const baseComponents = [ protocol, import.meta.env.VITE_API_URL.replace('{{HOSTNAME}}', hostname) ];
     return baseComponents.join('');
 }
 
-const baseUrl: string = buildUrl(protocol, hostname, port);
+const baseUrl: string = buildUrl(protocol, hostname);
 
 export {
     baseUrl
