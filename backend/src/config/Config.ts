@@ -49,8 +49,6 @@ class Config {
             library.apiKey = fs.readFileSync(path, 'utf8');
             return library;
         });
-
-        console.log('Loaded user config:', this.libraries);
     }
 }
 

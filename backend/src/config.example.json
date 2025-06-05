@@ -1,4 +1,4 @@
-// Rename this file to `config.json` and populate the values for your institution
+// Rename this file to `config.json` (for dev) and `config.prod.json` (for docker deployment) and populate the values for your institution
 {
     "zones": [
         {
