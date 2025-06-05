@@ -1,0 +1,38 @@
+############################################################################################# BEGIN Build
+FROM node:24-alpine AS builder
+LABEL maintainer="Michaël Minelli <borne2befree@mail.minelli.swiss>"
+LABEL Description="Frontend of Borne2BeFree - Build stage"
+
+RUN apk update \
+  && apk add --no-cache git
+
+ADD frontend/ /app/
+
+WORKDIR /app/
+
+RUN rm -rf node_modules
+
+RUN npm ci --unsafe-perm
+
+RUN npm run build
+############################################################################################# END Build
+
+############################################################################################# BEGIN Make frontend available on port 80 and 443
+FROM nginx:1.27-alpine
+LABEL maintainer="Michaël Minelli <borne2befree@mail.minelli.swiss>"
+LABEL Description="Frontend of Borne2BeFree - Run stage"
+
+## Copy our default nginx config
+ADD frontend/nginx/default.conf /etc/nginx/conf.d/
+
+## Remove default nginx website
+RUN rm -rf /usr/share/nginx/html/*
+
+## From ‘builder’ stage copy over the artifacts in dist folder to default nginx public folder
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+#ENTRYPOINT ["tail", "-f", "/dev/null"]
+############################################################################################# END Make frontend available on port 80 and 443
