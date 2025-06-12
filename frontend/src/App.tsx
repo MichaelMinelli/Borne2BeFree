@@ -207,7 +207,7 @@ const App: React.FC = () => {
 
     if ( loading ) {
         // return <LoadingLayout />
-        return <div>Loading</div>;
+        return <div>{ t('loading') }</div>;
     } else if ( loggedIn && library ) {
         return <CheckoutLayout library={ library } user={ user } timeout={ logoutTimeLeft } timeLimit={ LOGOUT_TIME_LIMIT } books={ booksCheckedOut } checkoutBook={ doCheckoutBook } logout={ doLogout } showAlert={ showCheckoutAlert } alert={ checkoutAlert } />;
     } else if ( library ) {
