@@ -11,15 +11,12 @@ import { Library }    from './types/Library';
 (async () => {
     await Config.loadUserConfig();
 
-    // ensure that the userConfig is loaded and correctly formatted
-    //TODO - ensure that the userConfig has all required fields
-
-    // ensure that the venn diagram of ips does not have intersections
+    // ensure that there is no duplicate library codes
     {
-        const all_ip_array: string[] = Config.libraries.flatMap((l: Library) => l.permitIpAddresses);
-        Config.allIpSet = new Set(all_ip_array);
-        if ( all_ip_array.length !== Config.allIpSet.size ) {
-            throw new Error('Multiple libraries are configured with the same ip address but that\'s not allowed');
+        const allLibraryCodeArray: string[] = Config.libraries.flatMap((l: Library) => l.code);
+
+        if ( allLibraryCodeArray.length !== (new Set(allLibraryCodeArray)).size ) {
+            throw new Error('Multiple libraries are configured with the same code but that\'s not allowed');
         }
     }
 

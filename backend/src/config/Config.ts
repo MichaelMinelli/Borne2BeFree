@@ -18,7 +18,6 @@ class Config {
     };
 
     public libraries: Array<Library> = [];
-    public allIpSet: Set<string> = new Set<string>();
 
     constructor() {
         this.production = process.env.NODE_ENV === 'production';
