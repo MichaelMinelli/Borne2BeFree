@@ -20,8 +20,6 @@
                 },
                 {
                     "code"        : "67890",
-                    "logo"        : "url/to/image.jpg",
-                    "featureImage": "url/to/image.jpg",
                     "name"        : "Friendly Library Name",
                     "organization": "Friendly Organization Name",
                     "apiName"     : "XXXXX",

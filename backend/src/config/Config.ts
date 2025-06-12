@@ -4,6 +4,9 @@ import { Zone }        from '../types/Zone';
 import { UserLibrary } from '../types/UserLibrary';
 import * as fs         from 'fs-extra';
 import { UserConfig }  from '../types/UserConfig';
+import { z }           from 'zod';
+import { fromError }   from 'zod-validation-error';
+import { Logger }      from 'winston';
 
 
 class Config {
@@ -31,8 +34,22 @@ class Config {
         };
     }
 
-    async loadUserConfig() {
+    // The logger is passed as an argument because if we import it we have an infinite dependency loop
+    async loadUserConfig(logger: Logger) {
         const userConfigFile: UserConfig = await fs.readJson(this.userConfigFilePath) as UserConfig;
+
+        // ensure that the configuration is valid
+        {
+            try {
+                UserConfig.parse(userConfigFile);
+            } catch ( error ) {
+                if ( error instanceof z.ZodError ) {
+                    logger.error(`Invalid user configuration file: ${ fromError(error).toString() }`);
+                    logger.error('Details:', error);
+                    throw new Error(`Invalid user configuration file: ${ fromError(error).toString() }`);
+                }
+            }
+        }
 
         this.libraries = userConfigFile.zones.flatMap((zone: Zone) => {
             return zone.libraries.map((library: UserLibrary) => {

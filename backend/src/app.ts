@@ -6,10 +6,11 @@ import ClusterManager from './process/ClusterManager';
 import WorkerRole     from './process/WorkerRole';
 import API            from './express/API';
 import { Library }    from './types/Library';
+import logger         from './logging/WinstonLogger.js';
 
 
 (async () => {
-    await Config.loadUserConfig();
+    await Config.loadUserConfig(logger);
 
     // ensure that there is no duplicate library codes
     {

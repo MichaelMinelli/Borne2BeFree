@@ -1,12 +1,15 @@
 import { UserLibrary } from './UserLibrary';
+import { z }           from 'zod';
 
 
-interface Zone {
-    name: string;
-    hostname: string;
-    apiKey: string;
-    libraries: Array<UserLibrary>;
-}
+const Zone = z.strictObject({
+                                name     : z.string(),
+                                hostname : z.string(),
+                                apiKey   : z.string(),
+                                libraries: z.array(UserLibrary)
+                            });
+
+type Zone = z.infer<typeof Zone>;
 
 
-export type { Zone };
+export { Zone };
