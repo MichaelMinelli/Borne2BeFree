@@ -7,6 +7,7 @@
             "apiKey"   : "Path to your API key file",
             "libraries": [
                 {
+                    "code"             : "12345",
                     "logo"             : "url/to/image.jpg",
                     "featureImage"     : "url/to/image.jpg",
                     "name"             : "Friendly Library Name",
@@ -18,15 +19,13 @@
                     ]
                 },
                 {
-                    "logo"             : "url/to/image.jpg",
-                    "featureImage"     : "url/to/image.jpg",
-                    "name"             : "Friendly Library Name",
-                    "organization"     : "Friendly Organization Name",
-                    "apiName"          : "XXXXX",
-                    "apiCircDesk"      : "XXXXXXXXXXXXXXXX",
-                    "permitIpAddresses": [
-                        "127.0.0.2"
-                    ]
+                    "code"        : "67890",
+                    "logo"        : "url/to/image.jpg",
+                    "featureImage": "url/to/image.jpg",
+                    "name"        : "Friendly Library Name",
+                    "organization": "Friendly Organization Name",
+                    "apiName"     : "XXXXX",
+                    "apiCircDesk" : "XXXXXXXXXXXXXXXX"
                 }
             ]
         }
