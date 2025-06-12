@@ -1,5 +1,5 @@
-import { baseUrl }   from './apiConstants.js';
-import type { Book } from '../types/Book.ts';
+import { buildLibraryUrl } from './apiConstants.js';
+import type { Book }       from '../types/Book.ts';
 
 
 interface CheckoutFailure {
@@ -9,7 +9,7 @@ interface CheckoutFailure {
 
 type CheckoutResult = Book | CheckoutFailure;
 
-const getUrl = (bookBarcode: string, userId: string): string => `${ baseUrl }/users/${ userId }/loans?item_barcode=${ bookBarcode }`;
+const getUrl = (bookBarcode: string, userId: string): string => `${ buildLibraryUrl(`users/${ userId }/loans`) }&item_barcode=${ bookBarcode }`;
 
 function formatDueDate(dateString: string): string {
     const date = new Date(dateString);
