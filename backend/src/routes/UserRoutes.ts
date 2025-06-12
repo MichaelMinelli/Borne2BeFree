@@ -23,10 +23,14 @@ class UserRoutes implements RoutesManager {
 
     private async whoami(req: express.Request, res: express.Response) {
         if ( !req.session.profile ) {
-            return req.session.sendResponse(res, StatusCodes.OK, {
-                error  : 'Sorry, we could not find a circulation desk for your ip address.',
-                message: `Could not find your ip (${ req.ip }) in permitIpAddresses for any location`
+            return req.session.sendResponse(res, StatusCodes.NOT_FOUND, {
+                error  : 'Sorry, we could not find a circulation desk for your code.',
+                message: `Could not find your code (${ req.query.library as string | undefined }) for any location`
             });
+        }
+
+        if ( req.session.profile.permitIpAddresses && req.session.profile.permitIpAddresses.length > 0 && req.ip !== undefined && !req.session.profile.permitIpAddresses.includes(req.ip.split(':').pop()!) ) {
+            return req.session.sendResponse(res, StatusCodes.NOT_FOUND);
         }
 
         return req.session.sendResponse(res, StatusCodes.OK, {

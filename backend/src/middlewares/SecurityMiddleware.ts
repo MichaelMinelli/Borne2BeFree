@@ -14,7 +14,19 @@ class SecurityMiddleware {
     }
 
     private checkIfConnected(checkIfConnected: boolean, req: express.Request): boolean {
-        return !checkIfConnected || (req.session.profile !== null && req.session.profile !== undefined);
+        if ( !checkIfConnected ) {
+            return true;
+        }
+
+        if ( req.session.profile === null || req.session.profile === undefined ) {
+            return false;
+        }
+
+        if ( req.session.profile.permitIpAddresses && req.session.profile.permitIpAddresses.length > 0 && req.ip !== undefined ) {
+            return req.session.profile.permitIpAddresses.includes(req.ip.split(':').pop()!);
+        }
+
+        return true;
     }
 }
 
