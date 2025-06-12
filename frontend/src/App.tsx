@@ -28,6 +28,10 @@ const DEFAULT_USER_VALUE = {
 const App: React.FC = () => {
     const { t } = useTranslation();
 
+    if ( !(new URLSearchParams(window.location.search)).has('library') ) {
+        return <div>{ t('libraryNeeded') }</div>;
+    }
+
     const [ loading, setLoading ] = useState<boolean>(true);
     const [ library, setLibrary ] = useState<Library | undefined>(undefined);
     const [ loggedIn, setLoggedIn ] = useState<boolean>(false);
@@ -186,14 +190,14 @@ const App: React.FC = () => {
     // Effect to handle the initial loading of the app (similar to old componentDidMount)
     useEffect(() => {
         whoami().then((library) => {
+            setLoading(false);
+
             if ( 'failureMessage' in library ) {
                 console.error(library);
                 return;
             } else {
                 library.featureImage = library.featureImage === 'url/to/image.jpg' ? undefined : library.featureImage;
                 library.logo = library.logo === 'url/to/image.jpg' ? undefined : library.logo;
-
-                setLoading(false);
                 setLibrary(library);
             }
         });
