@@ -1,8 +1,12 @@
 import { Zone } from './Zone';
+import { z }    from 'zod';
 
 
-interface UserConfig {
-    zones: Array<Zone>;
-};
+const UserConfig = z.strictObject({
+                                      zones: z.array(Zone)
+                                  });
 
-export type { UserConfig };
+type UserConfig = z.infer<typeof UserConfig>;
+
+
+export { UserConfig };

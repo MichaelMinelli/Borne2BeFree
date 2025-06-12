@@ -1,13 +1,21 @@
-interface UserLibrary {
-    code: string;
-    logo: string;
-    featureImage: string;
-    name: string;
-    organization: string;
-    apiName: string;
-    apiCircDesk: string;
-    permitIpAddresses: string[];
-}
+import { z } from 'zod';
 
 
-export type { UserLibrary };
+const UserLibrary = z.strictObject({
+                                       code: z.string(),
+
+                                       logo        : z.string().optional(),
+                                       featureImage: z.string().optional(),
+
+                                       name        : z.string(),
+                                       organization: z.string(),
+
+                                       apiName    : z.string(),
+                                       apiCircDesk: z.string(),
+
+                                       permitIpAddresses: z.array(z.string()).optional()
+                                   });
+
+type UserLibrary = z.infer<typeof UserLibrary>;
+
+export { UserLibrary };
