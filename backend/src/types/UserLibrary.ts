@@ -1,4 +1,5 @@
 interface UserLibrary {
+    code: string;
     logo: string;
     featureImage: string;
     name: string;

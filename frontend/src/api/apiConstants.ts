@@ -6,8 +6,12 @@ function buildUrl(protocol: string, hostname: string): string {
     return baseComponents.join('');
 }
 
+function buildLibraryUrl(url: string): string {
+    return `${ baseUrl }/${ url }?library=${ (new URLSearchParams(window.location.search)).get('library') }`;
+}
+
 const baseUrl: string = buildUrl(protocol, hostname);
 
 export {
-    baseUrl
+    baseUrl, buildLibraryUrl
 };

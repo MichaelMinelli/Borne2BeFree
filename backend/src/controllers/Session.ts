@@ -15,10 +15,10 @@ class Session {
     }
 
     async initSession(req: express.Request) {
-        const ipAddress = req.ip?.split(':').pop();
+        const libraryCode = req.query.library as string | undefined;
 
-        if ( ipAddress && Config.allIpSet.has(ipAddress) ) {
-            this.profile = Config.libraries.find((location: Library) => location.permitIpAddresses.includes(ipAddress));
+        if ( libraryCode ) {
+            this.profile = Config.libraries.find((location: Library) => location.code === libraryCode);
         }
     }
 

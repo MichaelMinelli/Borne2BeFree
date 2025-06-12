@@ -1,5 +1,5 @@
-import { baseUrl }      from './apiConstants.js';
-import type { Library } from '../types/Library.ts';
+import { buildLibraryUrl } from './apiConstants.js';
+import type { Library }    from '../types/Library.ts';
 
 
 interface WhoAmIFailureApi {
@@ -18,10 +18,10 @@ type WhoAmIResult = Library | WhoAmIFailure;
 
 async function whoami(): Promise<WhoAmIResult> {
     try {
-        const response = await fetch(`${ baseUrl }/whoami`);
+        const response = await fetch(buildLibraryUrl(`whoami`));
         const data: WhoAmIResponse = await response.json();
 
-        if ( 'error' in response ) {
+        if ( 'error' in data ) {
             console.log(data);
             return {
                 failureMessage: 'Failed to set up circulation desk. The server is probably not correctly configured.'

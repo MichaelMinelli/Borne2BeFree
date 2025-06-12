@@ -1,9 +1,9 @@
-import { baseUrl }       from './apiConstants.js';
-import type { AlmaUser } from '../types/AlmaUser.ts';
-import type { User }     from '../types/User.ts';
+import { buildLibraryUrl } from './apiConstants.js';
+import type { AlmaUser }   from '../types/AlmaUser.ts';
+import type { User }       from '../types/User.ts';
 
 
-const getUrl = (userBarcode: string): string => `${ baseUrl }/users/${ userBarcode }`;
+const getUrl = (userBarcode: string): string => buildLibraryUrl(`users/${ userBarcode }`);
 
 
 interface LoginFailure {

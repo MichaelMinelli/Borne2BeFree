@@ -3,6 +3,8 @@
         "findingUser": "Recherche de l'utilisateur...",
         "checkingOut": "Vérification de l'article..."
     },
+    "loading"        : "Chargement...",
+    "libraryNeeded"  : "Le paramètre 'library' est requis dans l'URL.",
     "libraryNotFound": "Bibliothèque introuvable",
     "bookTable"      : {
         "columns": {
