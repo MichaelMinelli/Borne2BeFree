@@ -1,6 +1,7 @@
 import type { Book }      from '../types/Book.ts';
 import React              from 'react';
 import { useTranslation } from 'react-i18next';
+import { DateTime }       from 'luxon';
 
 
 interface BookTableProps {
@@ -13,7 +14,10 @@ const BookTable: React.FC<BookTableProps> = ({
                                                  books,
                                                  rowLimit
                                              }) => {
-    const { t } = useTranslation();
+    const {
+              t,
+              i18n
+          } = useTranslation();
 
     if ( books.length === 0 ) {
         return null;
@@ -29,7 +33,7 @@ const BookTable: React.FC<BookTableProps> = ({
         </thead>
         <tbody className="text-xl">
             { bookList.map(b => <tr key={ b.barcode } className="border-b border-gray-400">
-                <td className="p-2 font-bold text-xs">{ b.dueDate }</td>
+                <td className="p-2 font-bold text-xs">{ DateTime.fromFormat(b.dueDate, 'MMMM d, yyyy', { locale: 'en' }).setLocale(i18n.language).toLocaleString(DateTime.DATE_FULL) }</td>
                 <td className="p-2 truncate" style={ { maxWidth: '50vw' } }>{ b.bookString }</td>
             </tr>) }
             { books.length > rowLimit + 1 ? <tr>

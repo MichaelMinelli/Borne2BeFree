@@ -70,7 +70,7 @@ const App: React.FC = () => {
         const newUser = await login(userBarcode);
         if ( 'failureMessage' in newUser ) {
             setLoginAlert({
-                              message  : newUser.failureMessage,
+                              message  : t('login.error'),
                               isWarning: true,
                               color    : 'red'
                           });
@@ -169,7 +169,7 @@ const App: React.FC = () => {
             setLogoutTimeLeft(LOGOUT_TIME_LIMIT);
             setShowCheckoutAlert(true);
             setCheckoutAlert({
-                                 message  : newBook.failureMessage,
+                                 message  : t('checkout.error'),
                                  isWarning: true,
                                  color    : 'red'
                              });

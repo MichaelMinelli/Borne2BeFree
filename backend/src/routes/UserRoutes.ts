@@ -36,7 +36,8 @@ class UserRoutes implements RoutesManager {
         return req.session.sendResponse(res, StatusCodes.OK, {
             logo            : req.session.profile.logo,
             featureImage    : req.session.profile.featureImage,
-            name            : req.session.profile.apiName,
+            name            : req.session.profile.name,
+            currency        : req.session.profile.currency,
             organizationName: req.session.profile.organization
         });
     }

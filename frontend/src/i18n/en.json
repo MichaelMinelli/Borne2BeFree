@@ -28,7 +28,7 @@
         "logoutCountdown_other": "Logging out in {{count}} seconds"
     },
     "login"          : {
-        "title"           : "Borne2BeFree - {{libraryName}}",
+        "title"           : "{{libraryName}}",
         "loginPlaceholder": "Scan your ID"
     }
 }

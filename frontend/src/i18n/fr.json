@@ -22,13 +22,15 @@
             "fees"    : "Amendes & Frais"
         },
         "scanPlaceholder"      : "Scannez votre prochain article",
+        "error"                : "Une erreur est survenue lors de la vérification de l'article.",
         "logout"               : "Déconnexion",
         "logoutInstructions"   : "Pour vous déconnecter, scannez à nouveau votre carte de bibliothèque.",
         "logoutCountdown_one"  : "Déconnexion dans 1 seconde",
         "logoutCountdown_other": "Déconnexion dans {{count}} secondes"
     },
     "login"          : {
-        "title"           : "Borne2BeFree - {{libraryName}}",
-        "loginPlaceholder": "Scannez votre carte"
+        "title"           : "{{libraryName}}",
+        "loginPlaceholder": "Scannez votre carte",
+        "error"           : "Une erreur est survenue lors de la connexion. Veuillez réessayer."
     }
 }

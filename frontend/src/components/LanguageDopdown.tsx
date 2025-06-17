@@ -33,7 +33,7 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({ light = false }) =>
     }, []);
 
     return (<div ref={ dropdownRef } className="relative inline-block text-left">
-        <button type="button" onClick={ () => setIsOpen(!isOpen) } className="inline-flex font-semibold justify-center w-full rounded-full border-2 border-stone-200 shadow-sm px-5 py-2 bg-stone-700 text-xl  hover:bg-stone-400 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <button type="button" onClick={ () => setIsOpen(!isOpen) } className="cursor-pointer inline-flex font-semibold justify-center w-full rounded-full border-2 border-stone-200 shadow-sm px-5 py-2 bg-stone-700 text-xl  hover:bg-stone-400 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-300">
         <span className="mr-2">
           { SupportedLanguages[currentLanguage as keyof typeof SupportedLanguages]?.flag }
         </span>
@@ -47,13 +47,13 @@ const LanguageDropdown: React.FC<LanguageDropdownProps> = ({ light = false }) =>
 
         { isOpen && (<div className="origin-top-right font-semibold absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
             <div className="py-1">
-                { Object.keys(SupportedLanguages).map((lang) => (<button key={ lang } onClick={ () => handleChangeLanguage(lang) } className="flex items-center w-full px-4 py-2 text-xl text-gray-700 hover:bg-gray-100">
-                <span className="mr-2">
-                  { SupportedLanguages[lang as keyof typeof SupportedLanguages].flag }
-                </span>
-                    { !light && (<span>
-                    { SupportedLanguages[lang as keyof typeof SupportedLanguages].nativeName }
-                  </span>) }
+                { Object.keys(SupportedLanguages).map((lang) => (<button key={ lang } onClick={ () => handleChangeLanguage(lang) } className="cursor-pointer flex items-center w-full px-4 py-2 text-xl text-gray-700 hover:bg-gray-100">
+                    <span className="mr-2">
+                      { SupportedLanguages[lang as keyof typeof SupportedLanguages].flag }
+                    </span>
+                    <span>
+                        { SupportedLanguages[lang as keyof typeof SupportedLanguages].nativeName }
+                    </span>
                 </button>)) }
             </div>
         </div>) }
