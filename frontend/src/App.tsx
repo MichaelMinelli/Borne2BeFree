@@ -16,7 +16,7 @@ import type { Alert }     from './types/Alert.ts';
 
 const LOGIN_ALERT_TIMEOUT_SECONDS = 10;
 const CHECKOUT_ALERT_TIMEOUT_SECONDS = 2;
-const LOGOUT_TIME_LIMIT = 60;
+const LOGOUT_TIME_LIMIT = 6000;
 const DEFAULT_USER_VALUE = {
     name    : '',
     loans   : 0,

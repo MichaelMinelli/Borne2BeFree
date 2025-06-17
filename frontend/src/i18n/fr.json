@@ -28,7 +28,7 @@
         "logoutCountdown_other": "Déconnexion dans {{count}} secondes"
     },
     "login"          : {
-        "title"           : "Borne2BeFree - {{libraryName}}",
+        "title"           : "{{libraryName}}",
         "loginPlaceholder": "Scannez votre carte"
     }
 }
