@@ -42,26 +42,21 @@ class UserRoutes implements RoutesManager {
     }
 
     private async getUser(req: express.Request, res: express.Response) {
-        logger.info(`Retrieving user with id ${ req.params.userId }.`);
 
         const user = await AlmaHelper.getUser(req.session.profile!, req.params.userId);
         if ( !user ) {
             return req.session.sendResponse(res, StatusCodes.OK, { error: 'something went wrong with the lookup' });
         }
 
-        logger.info(JSON.stringify(user));
+        logger.info(`[Logging] user with id ${ req.params.userId }.`);
 
         req.session.sendResponse(res, StatusCodes.OK, user);
     }
 
     private async requestLoan(req: express.Request, res: express.Response) {
-        logger.info(req.query.item_barcode);
-        logger.info(req.body);
-
         logger.info(`Loan processing started ${ JSON.stringify(req.params) } and ${ JSON.stringify(req.query) } and ${ JSON.stringify(req.body) }`);
 
         const loan = await AlmaHelper.requestLoan(req.session.profile!, req.params.userId, req.query.item_barcode as string);
-        logger.info(loan);
 
         if ( loan === undefined ) {
             return req.session.sendResponse(res, StatusCodes.OK, { error: 'something went wrong with the lookup' });
