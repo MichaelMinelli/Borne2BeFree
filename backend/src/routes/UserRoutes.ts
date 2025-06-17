@@ -51,11 +51,14 @@ class UserRoutes implements RoutesManager {
 
         logger.info(`[Logging] user with id ${ req.params.userId }.`);
 
-        const firstName: string = user.pref_first_name || user.first_name;
-        const lastName: string = user.pref_last_name || user.last_name;
+
+        const maskNames = (str: string): string => str.replace(/^(.{3})(.*)$/, (_: string, first: string, rest: string): string => first + '*'.repeat(rest.length));
+
+        const firstName: string = maskNames(user.pref_first_name || user.first_name || '');
+        const lastName: string = maskNames(user.pref_last_name || user.last_name || '');
 
         req.session.sendResponse(res, StatusCodes.OK, {
-            name    : `${ firstName ?? '' } ${ lastName }`,
+            name    : `${ firstName } ${ lastName }`,
             loans   : user.loans.value,
             requests: user.requests.value,
             fines   : user.fees.value,
