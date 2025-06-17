@@ -1,10 +1,11 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import logger                                    from '../logging/WinstonLogger';
 import { Library }                               from '../types/Library';
+import { AlmaUser }                              from '../types/AlmaUser';
 
 
 class AlmaHelper {
-    public async getUser(library: Library, id: string): Promise<unknown> {
+    public async getUser(library: Library, id: string): Promise<AlmaUser | undefined> {
         const options: AxiosRequestConfig = {
             baseURL: library.hostname,
             url    : '/almaws/v1/users/' + id + '?expand=loans,requests,fees&format=json',
@@ -16,7 +17,7 @@ class AlmaHelper {
 
         try {
             const response = await axios.request(options);
-            return response.data;
+            return response.data as AlmaUser;
         } catch ( error ) {
             logger.error(error);
             return undefined;

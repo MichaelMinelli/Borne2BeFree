@@ -51,7 +51,16 @@ class UserRoutes implements RoutesManager {
 
         logger.info(`[Logging] user with id ${ req.params.userId }.`);
 
-        req.session.sendResponse(res, StatusCodes.OK, user);
+        const firstName: string = user.pref_first_name || user.first_name;
+        const lastName: string = user.pref_last_name || user.last_name;
+
+        req.session.sendResponse(res, StatusCodes.OK, {
+            name    : `${ firstName ?? '' } ${ lastName }`,
+            loans   : user.loans.value,
+            requests: user.requests.value,
+            fines   : user.fees.value,
+            id      : user.primary_id
+        });
     }
 
     private async requestLoan(req: express.Request, res: express.Response) {
