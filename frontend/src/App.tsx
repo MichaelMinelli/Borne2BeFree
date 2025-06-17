@@ -16,7 +16,7 @@ import type { Alert }     from './types/Alert.ts';
 
 const LOGIN_ALERT_TIMEOUT_SECONDS = 10;
 const CHECKOUT_ALERT_TIMEOUT_SECONDS = 2;
-const LOGOUT_TIME_LIMIT = 6000;
+const LOGOUT_TIME_LIMIT = 60;
 const DEFAULT_USER_VALUE = {
     name    : '',
     loans   : 0,
@@ -70,7 +70,7 @@ const App: React.FC = () => {
         const newUser = await login(userBarcode);
         if ( 'failureMessage' in newUser ) {
             setLoginAlert({
-                              message  : newUser.failureMessage,
+                              message  : t('login.error'),
                               isWarning: true,
                               color    : 'red'
                           });
@@ -169,7 +169,7 @@ const App: React.FC = () => {
             setLogoutTimeLeft(LOGOUT_TIME_LIMIT);
             setShowCheckoutAlert(true);
             setCheckoutAlert({
-                                 message  : newBook.failureMessage,
+                                 message  : t('checkout.error'),
                                  isWarning: true,
                                  color    : 'red'
                              });
