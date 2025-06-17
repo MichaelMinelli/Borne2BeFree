@@ -1,15 +1,15 @@
-import PillBox                          from './PillBox';
-import { BookOpenIcon, UserCircleIcon } from './Icons';
-import AlertBox                         from './AlertBox.js';
-import InputBox                         from './InputBox';
-import BookTable                        from './BookTable.js';
-import type { Book }                    from '../types/Book.ts';
-import type { User }                    from '../types/User.ts';
-import type { Library }                 from '../types/Library.ts';
-import React                            from 'react';
-import { useTranslation }               from 'react-i18next';
-import LanguageDopdown                  from './LanguageDopdown.tsx';
-import type { Alert }                   from '../types/Alert.ts';
+import PillBox                                           from './PillBox';
+import { BookOpenIcon, LogoutSolidIcon, UserCircleIcon } from './Icons';
+import AlertBox                                          from './AlertBox.js';
+import InputBox                                          from './InputBox';
+import BookTable                                         from './BookTable.js';
+import type { Book }                                     from '../types/Book.ts';
+import type { User }                                     from '../types/User.ts';
+import type { Library }                                  from '../types/Library.ts';
+import React                                             from 'react';
+import { useTranslation }                                from 'react-i18next';
+import LanguageDopdown                                   from './LanguageDopdown.tsx';
+import type { Alert }                                    from '../types/Alert.ts';
 
 
 interface CheckoutLayoutProps {
@@ -69,7 +69,13 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
                 <PillBox title={ t('checkout.pills.fees') } value={ '$' + user.fines } />
 
                 <div className="ml-8 mr-4 ">
-                    <LanguageDopdown light={ false } />
+                    <LanguageDopdown light={ true } />
+                </div>
+
+                <div className="ml-8 mr-4 ">
+                    <button type="button" onClick={ logout } className="inline-flex cursor-pointer font-semibold justify-center w-full rounded-full border-0 border-gray-500 shadow-[0px_0px_10px_1px_#00000040] px-8 py-2 bg-stone-700 text-xl  hover:bg-stone-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500">
+                        <LogoutSolidIcon classes="w-8 h-8 m-0 text-gray-100" />
+                    </button>
                 </div>
             </div>
         </div>
@@ -91,9 +97,9 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
             <div className="flex-auto w-3/4 px-8 mt-2 z-10">
                 <div className="p-5 rounded content-center">
                     <BookTable books={ books } rowLimit={ 5 } />
+                    <br />
                     <div className="text-center text-2xl font-bold text-gray-400 opacity-50">
-                        { books.length === 0 ? <>{ t('checkout.logoutInstructions') }<br /></> : null }
-                        <button type="button" onClick={ logout } className="mt-5 cursor-pointer text-stone-900 hover:text-white border border-stone-700 hover:bg-stone-800 bg-stone-50 focus:ring-4 focus:outline-none focus:ring-stone-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">{ t('checkout.logout') }</button>
+                        { t('checkout.logoutInstructions') }
                     </div>
                 </div>
             </div>
