@@ -1,5 +1,4 @@
 import { buildLibraryUrl } from './apiConstants.js';
-import type { AlmaUser }   from '../types/AlmaUser.ts';
 import type { User }       from '../types/User.ts';
 
 
@@ -20,18 +19,7 @@ async function login(userBarcode: string): Promise<LoginResult> {
 
     try {
         const userResponse = await fetch(getUrl(userBarcode));
-        const user: AlmaUser = await userResponse.json();
-
-        const firstName: string = user.pref_first_name || user.first_name;
-        const lastName: string = user.pref_last_name || user.last_name;
-
-        return {
-            name    : `${ firstName ?? '' } ${ lastName }`,
-            loans   : user.loans.value,
-            requests: user.requests.value,
-            fines   : user.fees.value,
-            id      : user.primary_id
-        };
+        return await userResponse.json();
     } catch ( error ) {
         console.error('Failed to login', error);
         return {
