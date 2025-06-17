@@ -6,6 +6,7 @@ const Zone = z.strictObject({
                                 name     : z.string(),
                                 hostname : z.string(),
                                 apiKey   : z.string(),
+                                currency : z.string(),
                                 libraries: z.array(UserLibrary)
                             });
 

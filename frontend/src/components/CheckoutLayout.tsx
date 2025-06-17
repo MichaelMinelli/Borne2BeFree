@@ -66,7 +66,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
                 {/* <!-- State Pills --> */ }
                 <PillBox title={ t('checkout.pills.loans') } value={ String(user.loans) } />
                 <PillBox title={ t('checkout.pills.requests') } value={ String(user.requests) } />
-                <PillBox title={ t('checkout.pills.fees') } value={ '$' + user.fines } />
+                <PillBox title={ t('checkout.pills.fees') } value={ library.currency.includes('{{value}}') ? library.currency.replace('{{value}}', String(user.fines)) : `${ user.fines } ${ library.currency }` } />
 
                 <div className="ml-8 mr-4 ">
                     <LanguageDopdown light={ true } />

@@ -5,6 +5,7 @@
             "name"     : "Zone Name",
             "hostname" : "https://api-na.hosted.exlibrisgroup.com",
             "apiKey"   : "Path to your API key file",
+            "currency" : "{{value}} CHF",
             "libraries": [
                 {
                     "code"             : "12345",
