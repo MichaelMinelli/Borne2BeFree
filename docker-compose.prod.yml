@@ -19,6 +19,7 @@ services:
                 target: /config.json
         # List of secrets containing API keys
         secrets:
+            - jwtSecret
             - spApiKey
             - elpApiKey
             - elpPassword
@@ -70,6 +71,8 @@ configs:
 
 # Secrets containing API keys
 secrets:
+    jwtSecret:
+        file: ./backend/src/secrets/jwt.secret
     spApiKey:
         file: ./backend/src/secrets/sp.apiKey
     elpApiKey:
