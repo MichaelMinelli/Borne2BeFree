@@ -1,0 +1,43 @@
+{
+    "alert": {
+        "findingUser": "Benutzer wird gesucht...",
+        "checkingOut": "Ausleihe wird durchgeführt..."
+    },
+    "loading": "Laden...",
+    "libraryNeeded": "Der Parameter 'library' ist in der URL erforderlich.",
+    "libraryNotFound": "Bibliothek nicht gefunden",
+    "bookTable": {
+        "columns": {
+            "dueDate": "Fälligkeitsdatum",
+            "book": "Dokument"
+        },
+        "rows": {
+            "others": "und {{count}} weitere..."
+        }
+    },
+    "checkout": {
+        "pills": {
+            "loans": "Ausleihen",
+            "requests": "Bestellungen",
+            "fees": "Gebühren"
+        },
+        "scanPlaceholder": "Bitte das nächste Medium scannen",
+        "error": "Beim Ausleihen des Mediums ist ein Fehler aufgetreten.",
+        "logout": "Abmelden",
+        "logoutInstructions": "Zum Abmelden bitte den Ausweis erneut scannen.",
+        "logoutCountdown_one": "Abmeldung in 1 Sekunde",
+        "logoutCountdown_other": "Abmeldung in {{count}} Sekunden"
+    },
+    "libraryLogin": {
+        "title": "Borneo",
+        "libraryPlaceholder": "Bibliothek auswählen",
+        "passwordPlaceholder": "Passwort",
+        "submit": "Verbinden",
+        "error": "Beim Verbinden ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+    },
+    "login": {
+        "title": "{{libraryName}}",
+        "loginPlaceholder": "Bitte Ausweis scannen",
+        "error": "Beim Verbinden ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+    }
+}

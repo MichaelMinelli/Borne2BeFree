@@ -1,0 +1,43 @@
+{
+    "alert": {
+        "findingUser": "Ricerca dell'utente in corso...",
+        "checkingOut": "Prestito in corso..."
+    },
+    "loading": "Caricamento...",
+    "libraryNeeded": "Il parametro 'library' è richiesto nell'URL.",
+    "libraryNotFound": "Biblioteca non trovata",
+    "bookTable": {
+        "columns": {
+            "dueDate": "Data di scadenza",
+            "book": "Documento"
+        },
+        "rows": {
+            "others": "e altri {{count}}..."
+        }
+    },
+    "checkout": {
+        "pills": {
+            "loans": "Prestiti",
+            "requests": "Richieste",
+            "fees": "Tariffe"
+        },
+        "scanPlaceholder": "Scansiona il prossimo documento",
+        "error": "Si è verificato un errore durante il prestito del documento.",
+        "logout": "Disconnessione",
+        "logoutInstructions": "Per disconnettersi, scansionare nuovamente la tessera.",
+        "logoutCountdown_one": "Disconnessione tra 1 secondo",
+        "logoutCountdown_other": "Disconnessione tra {{count}} secondi"
+    },
+    "libraryLogin": {
+        "title": "Borneo",
+        "libraryPlaceholder": "Seleziona la biblioteca",
+        "passwordPlaceholder": "Password",
+        "submit": "Connetti",
+        "error": "Si è verificato un errore durante la connessione. Riprova."
+    },
+    "login": {
+        "title": "{{libraryName}}",
+        "loginPlaceholder": "Scansiona la tua tessera",
+        "error": "Si è verificato un errore durante la connessione. Riprova."
+    }
+}
