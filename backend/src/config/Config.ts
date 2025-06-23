@@ -1,12 +1,13 @@
-import * as process    from 'process';
-import { Library }     from '../types/Library';
-import { Zone }        from '../types/Zone';
-import { UserLibrary } from '../types/UserLibrary';
-import * as fs         from 'fs-extra';
-import { UserConfig }  from '../types/UserConfig';
-import { z }           from 'zod';
-import { fromError }   from 'zod-validation-error';
-import { Logger }      from 'winston';
+import * as process     from 'process';
+import { Library }      from '../types/Library';
+import { Zone }         from '../types/Zone';
+import { UserLibrary }  from '../types/UserLibrary';
+import * as fs          from 'fs-extra';
+import { UserConfig }   from '../types/UserConfig';
+import { z }            from 'zod';
+import { fromError }    from 'zod-validation-error';
+import { Logger }       from 'winston';
+import { v4 as uuidv4 } from 'uuid';
 
 
 class Config {
@@ -16,11 +17,13 @@ class Config {
 
     public readonly logsFolder: string;
 
+    public readonly jwtSecret: string = uuidv4();
+
     public readonly api: {
         port: number
     };
 
-    public libraries: Array<Library> = [];
+    public libraries: { [apiName: string]: Library } = {};
 
     constructor() {
         this.production = process.env.NODE_ENV === 'production';
@@ -51,19 +54,24 @@ class Config {
             }
         }
 
-        this.libraries = userConfigFile.zones.flatMap((zone: Zone) => {
-            return zone.libraries.map((library: UserLibrary) => {
-                return {
+        this.libraries = {};
+
+        userConfigFile.zones.forEach((zone: Zone) => {
+            return zone.libraries.forEach((library: UserLibrary) => {
+                const result = {
                     ...zone, ...library
                 };
-            });
-        });
 
-        this.libraries = this.libraries.map((library: Library) => {
-            // If library.apiKey is not a path (contain no '/'), assume that it is the name of a Docker secret
-            const path = library.apiKey.includes('/') ? library.apiKey : `/run/secrets/${ library.apiKey }`;
-            library.apiKey = fs.readFileSync(path, 'utf8');
-            return library;
+                // If library.apiKey is not a path (contain no '/'), assume that it is the name of a Docker secret
+                let path = result.apiKey.includes('/') ? result.apiKey : `/run/secrets/${ result.apiKey }`;
+                result.apiKey = fs.readFileSync(path, 'utf8');
+
+                // If library.password is not a path (contain no '/'), assume that it is the name of a Docker secret
+                path = result.password.includes('/') ? result.password : `/run/secrets/${ result.password }`;
+                result.password = fs.readFileSync(path, 'utf8');
+
+                this.libraries[result.apiName] = result;
+            });
         });
     }
 }
