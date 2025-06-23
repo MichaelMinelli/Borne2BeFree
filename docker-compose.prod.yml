@@ -21,6 +21,8 @@ services:
         secrets:
             - spApiKey
             - elpApiKey
+            - elpPassword
+            - spPassword
         restart: always
 
     frontend:
@@ -38,13 +40,14 @@ services:
 
     proxy:
         container_name: proxy
-        build:
-            context: ./
-            dockerfile: Dockerfile_Proxy
+        image: nginx:1-alpine
         networks:
             borne2befree:
                 aliases:
                     - proxy
+        configs:
+            -   source: proxi_config
+                target: /etc/nginx/conf.d/default.conf
         ports:
             - "80:80"
             - "443:443"
@@ -62,10 +65,16 @@ networks:
 configs:
     user_config:
         file: ./backend/src/config.prod.json
+    proxi_config:
+        file: ./proxy/default.conf
 
 # Secrets containing API keys
 secrets:
     spApiKey:
-        file: ./backend/src/sp.apiKey
+        file: ./backend/src/secrets/sp.apiKey
     elpApiKey:
-        file: ./backend/src/elp.apiKey
+        file: ./backend/src/secrets/elp.apiKey
+    elpPassword:
+        file: ./backend/src/secrets/elp.password
+    spPassword:
+        file: ./backend/src/secrets/sp.password
