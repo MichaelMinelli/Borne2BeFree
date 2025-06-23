@@ -28,6 +28,13 @@
         "logoutCountdown_one"  : "Déconnexion dans 1 seconde",
         "logoutCountdown_other": "Déconnexion dans {{count}} secondes"
     },
+    "libraryLogin"   : {
+        "title"              : "Borne2BeFree",
+        "libraryPlaceholder" : "Sélectionnez votre bibliothèque",
+        "passwordPlaceholder": "Mot de passe",
+        "submit"             : "Connexion",
+        "error"              : "Une erreur est survenue lors de la connexion. Veuillez réessayer."
+    },
     "login"          : {
         "title"           : "{{libraryName}}",
         "loginPlaceholder": "Scannez votre carte",

@@ -22,13 +22,22 @@
             "fees"    : "Fines & Fees"
         },
         "scanPlaceholder"      : "Scan your next item",
+        "error"                : "An error occurred while checking out the item.",
         "logout"               : "Logout",
         "logoutInstructions"   : "To log out, scan your ID again.",
         "logoutCountdown_one"  : "Logging out in 1 second",
         "logoutCountdown_other": "Logging out in {{count}} seconds"
     },
+    "libraryLogin"   : {
+        "title"              : "Borne2BeFree",
+        "libraryPlaceholder" : "Select your library",
+        "passwordPlaceholder": "Password",
+        "submit"             : "Connect",
+        "error"              : "An error occurred while connecting. Please try again."
+    },
     "login"          : {
         "title"           : "{{libraryName}}",
-        "loginPlaceholder": "Scan your ID"
+        "loginPlaceholder": "Scan your ID",
+        "error"           : "An error occurred while connecting. Please try again."
     }
 }

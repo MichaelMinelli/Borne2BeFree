@@ -7,7 +7,7 @@ function buildUrl(protocol: string, hostname: string): string {
 }
 
 function buildLibraryUrl(url: string): string {
-    return `${ baseUrl }/${ url }?library=${ (new URLSearchParams(window.location.search)).get('library') }`;
+    return `${ baseUrl }/${ url }?`;
 }
 
 const baseUrl: string = buildUrl(protocol, hostname);

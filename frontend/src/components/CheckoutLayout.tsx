@@ -8,7 +8,7 @@ import type { User }                                     from '../types/User.ts'
 import type { Library }                                  from '../types/Library.ts';
 import React                                             from 'react';
 import { useTranslation }                                from 'react-i18next';
-import LanguageDopdown                                   from './LanguageDopdown.tsx';
+import LanguageDopdown                                   from './LanguageDropdown.tsx';
 import type { Alert }                                    from '../types/Alert.ts';
 
 
