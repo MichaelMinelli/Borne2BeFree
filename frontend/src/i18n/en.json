@@ -4,7 +4,6 @@
         "checkingOut": "Checking out item..."
     },
     "loading"        : "Loading...",
-    "libraryNeeded"  : "The 'library' parameter is required in the URL.",
     "libraryNotFound": "Library not found",
     "bookTable"      : {
         "columns": {

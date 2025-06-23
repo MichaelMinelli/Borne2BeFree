@@ -4,7 +4,6 @@
         "checkingOut": "Vérification du document..."
     },
     "loading"        : "Chargement...",
-    "libraryNeeded"  : "Le paramètre 'Bibliothèque' est requis dans l'URL.",
     "libraryNotFound": "Bibliothèque introuvable",
     "bookTable"      : {
         "columns": {
