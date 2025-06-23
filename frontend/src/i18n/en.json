@@ -4,12 +4,11 @@
         "checkingOut": "Checking out item..."
     },
     "loading"        : "Loading...",
-    "libraryNeeded"  : "The 'library' parameter is required in the URL.",
     "libraryNotFound": "Library not found",
     "bookTable"      : {
         "columns": {
             "dueDate": "Due Date",
-            "book"   : "Book"
+            "book"   : "Document"
         },
         "rows"   : {
             "others": "and {{count}} others..."
@@ -29,7 +28,7 @@
         "logoutCountdown_other": "Logging out in {{count}} seconds"
     },
     "libraryLogin"   : {
-        "title"              : "Borne2BeFree",
+        "title"              : "Borneo",
         "libraryPlaceholder" : "Select your library",
         "passwordPlaceholder": "Password",
         "submit"             : "Connect",
