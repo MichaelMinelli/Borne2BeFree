@@ -1,5 +1,6 @@
 import { buildLibraryUrl } from './apiConstants.js';
 import type { Book }       from '../types/Book.ts';
+import type { Library }    from '../types/Library.ts';
 
 
 interface CheckoutFailure {
@@ -20,7 +21,7 @@ function formatDueDate(dateString: string): string {
     }).format(date);
 }
 
-async function checkout(bookBarcode: string, userId: string): Promise<CheckoutResult> {
+async function checkout(library: Library, bookBarcode: string, userId: string): Promise<CheckoutResult> {
     if ( !bookBarcode ) {
         return {
             failureMessage: 'Please enter a book barcode to checkout.'
@@ -28,8 +29,12 @@ async function checkout(bookBarcode: string, userId: string): Promise<CheckoutRe
     }
 
     try {
-
-        const response = await fetch(getUrl(bookBarcode, userId), { method: 'POST' });
+        const response = await fetch(getUrl(bookBarcode, userId), {
+            method : 'POST',
+            headers: {
+                'Authorization': `Bearer ${ library.token }`
+            }
+        });
         const data = await response.json();
 
         if ( 'error' in data && data.error ) {

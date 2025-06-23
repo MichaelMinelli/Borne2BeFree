@@ -7,7 +7,7 @@ class SessionMiddleware {
     registerOnBackend(backend: Express) {
         backend.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
             req.session = new Session();
-            req.session.initSession(req).then(() => {
+            req.session.initSession(req, res).then(() => {
                 next();
             });
         });

@@ -1,6 +1,10 @@
-import Config      from '../config/Config.js';
-import express     from 'express';
-import { Library } from '../types/Library';
+import express         from 'express';
+import { Library }     from '../types/Library';
+import * as jwt        from 'jsonwebtoken';
+import { JwtPayload }  from 'jsonwebtoken';
+import Config          from '../config/Config';
+import { StatusCodes } from 'http-status-codes';
+import logger          from '../logging/WinstonLogger.js';
 
 
 class Session {
@@ -14,11 +18,21 @@ class Session {
         this._library = newProfile;
     }
 
-    async initSession(req: express.Request) {
-        const libraryCode = req.query.library as string | undefined;
+    async initSession(req: express.Request, res: express.Response) {
+        const authorization = req.headers.authorization;
+        if ( authorization && authorization.startsWith('Bearer ') ) {
+            const jwtToken = authorization.replace('Bearer ', '');
 
-        if ( libraryCode ) {
-            this.profile = Config.libraries.find((location: Library) => location.code === libraryCode);
+            try {
+                const jwtData = jwt.verify(jwtToken, Config.jwtSecret) as JwtPayload;
+
+                if ( jwtData ) {
+                    this.profile = Config.libraries[(jwtData.profile.id as string)];
+                }
+            } catch ( error ) {
+                logger.error(`Error verifying JWT token: ${ JSON.stringify(error) }`);
+                res.sendStatus(StatusCodes.UNAUTHORIZED).end();
+            }
         }
     }
 

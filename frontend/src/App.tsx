@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 
-import LoginLayout    from './components/LoginLayout';
-import CheckoutLayout from './components/CheckoutLayout';
-
-import whoami             from './api/whoami';
-import login              from './api/login';
-import checkout           from './api/checkout';
-import type { Book }      from './types/Book.ts';
-import type { User }      from './types/User.ts';
-import type { Library }   from './types/Library.ts';
-import { useTranslation } from 'react-i18next';
-import type { Alert }     from './types/Alert.ts';
+import LoginLayout                     from './components/LoginLayout';
+import CheckoutLayout                  from './components/CheckoutLayout';
+import { libraryLogin, login }         from './api/login';
+import checkout                        from './api/checkout';
+import type { Book }                   from './types/Book.ts';
+import type { User }                   from './types/User.ts';
+import type { Library, LibraryResume } from './types/Library.ts';
+import { useTranslation }              from 'react-i18next';
+import type { Alert }                  from './types/Alert.ts';
+import LibraryLoginLayout              from './components/LibraryLoginLayout.tsx';
+import librariesList                   from './api/librariesList.ts';
 
 
 const LOGIN_ALERT_TIMEOUT_SECONDS = 10;
@@ -28,12 +28,10 @@ const DEFAULT_USER_VALUE = {
 const App: React.FC = () => {
     const { t } = useTranslation();
 
-    if ( !(new URLSearchParams(window.location.search)).has('library') ) {
-        return <div>{ t('libraryNeeded') }</div>;
-    }
-
     const [ loading, setLoading ] = useState<boolean>(true);
+    const [ currentLibrary, setCurrentLibrary ] = useState<LibraryResume | undefined>(undefined);
     const [ library, setLibrary ] = useState<Library | undefined>(undefined);
+    const [ libraries, setLibraries ] = useState<Array<LibraryResume> | undefined>(undefined);
     const [ loggedIn, setLoggedIn ] = useState<boolean>(false);
     const [ user, setUser ] = useState<User>(DEFAULT_USER_VALUE);
     const [ loginAlert, setLoginAlert ] = useState<Alert>({
@@ -41,6 +39,12 @@ const App: React.FC = () => {
                                                               isWarning: false,
                                                               color    : 'blue'
                                                           });
+    const [ libraryLoginAlert, setLibraryLoginAlert ] = useState<Alert>({
+                                                                            message  : '',
+                                                                            isWarning: false,
+                                                                            color    : 'blue'
+                                                                        });
+    const [ showLibraryLoginAlert, setShowLibraryLoginAlert ] = useState<boolean>(false);
     const [ showLoginAlert, setShowLoginAlert ] = useState<boolean>(false);
     const [ logoutTimeLeft, setLogoutTimeLeft ] = useState<number>(LOGOUT_TIME_LIMIT);
     const [ showCheckoutAlert, setShowCheckoutAlert ] = useState<boolean>(false);
@@ -54,9 +58,40 @@ const App: React.FC = () => {
     const currentUserBarcode = useRef<string | undefined>(undefined);
 
     // Timeouts for alerts
+    const libraryLoginFailureMessageTimeout = useRef<number | undefined>(undefined);
     const loginFailureMessageTimeout = useRef<number | undefined>(undefined);
     const checkoutFailureMessageTimeout = useRef<number | undefined>(undefined);
     const autoLogoutInterval = useRef<number | undefined>(undefined);
+
+
+    const doLibraryLogin = useCallback(async (password: string) => {
+        if ( currentLibrary && password !== '' ) {
+            setShowLibraryLoginAlert(true);
+            setLibraryLoginAlert({
+                                     message  : t('libraryLogin.submit') + '...',
+                                     isWarning: false,
+                                     color    : 'blue'
+                                 });
+
+            const newLibrary = await libraryLogin(currentLibrary.apiName, password);
+            if ( 'failureMessage' in newLibrary ) {
+                setLibraryLoginAlert({
+                                         message  : t('libraryLogin.error'),
+                                         isWarning: true,
+                                         color    : 'red'
+                                     });
+                setShowLibraryLoginAlert(true);
+
+                window.clearTimeout(libraryLoginFailureMessageTimeout.current);
+                libraryLoginFailureMessageTimeout.current = window.setTimeout(() => {
+                    setShowLibraryLoginAlert(false);
+                }, LOGIN_ALERT_TIMEOUT_SECONDS * 1000);
+            } else {
+                setLibrary(newLibrary);
+                setShowLibraryLoginAlert(false);
+            }
+        }
+    }, [ libraryLoginFailureMessageTimeout, currentLibrary ]);
 
 
     const doLogin = useCallback(async (userBarcode: string) => {
@@ -67,7 +102,7 @@ const App: React.FC = () => {
                           color    : 'blue'
                       });
 
-        const newUser = await login(userBarcode);
+        const newUser = await login(library!, userBarcode);
         if ( 'failureMessage' in newUser ) {
             setLoginAlert({
                               message  : t('login.error'),
@@ -103,7 +138,7 @@ const App: React.FC = () => {
 
             currentUserBarcode.current = userBarcode;
         }
-    }, [ loginFailureMessageTimeout ]);
+    }, [ library, loginFailureMessageTimeout ]);
 
 
     const doLogout = useCallback(() => {
@@ -163,7 +198,7 @@ const App: React.FC = () => {
         }
 
         // Otherwise, try checking the book out
-        const newBook = await checkout(bookBarcode, user.id);
+        const newBook = await checkout(library!, bookBarcode, user.id);
         if ( 'failureMessage' in newBook ) {
             // Error checking out book
             setLogoutTimeLeft(LOGOUT_TIME_LIMIT);
@@ -185,24 +220,17 @@ const App: React.FC = () => {
             setShowCheckoutAlert(false);
             setBooksCheckedOut([ newBook ].concat(booksCheckedOut));
         }
-    }, [ user, currentUserBarcode, checkoutFailureMessageTimeout ]);
+    }, [ user, library, currentUserBarcode, checkoutFailureMessageTimeout ]);
 
     // Effect to handle the initial loading of the app (similar to old componentDidMount)
     useEffect(() => {
-        whoami().then((library) => {
+        librariesList().then((libraries) => {
             setLoading(false);
-
-            if ( 'failureMessage' in library ) {
-                console.error(library);
-                return;
-            } else {
-                library.featureImage = library.featureImage === 'url/to/image.jpg' ? undefined : library.featureImage;
-                library.logo = library.logo === 'url/to/image.jpg' ? undefined : library.logo;
-                setLibrary(library);
-            }
+            setLibraries(libraries);
         });
 
         return () => {
+            window.clearTimeout(libraryLoginFailureMessageTimeout.current);
             window.clearTimeout(loginFailureMessageTimeout.current);
             window.clearTimeout(checkoutFailureMessageTimeout.current);
             window.clearInterval(autoLogoutInterval.current);
@@ -210,12 +238,13 @@ const App: React.FC = () => {
     }, []);
 
     if ( loading ) {
-        // return <LoadingLayout />
         return <div>{ t('loading') }</div>;
     } else if ( loggedIn && library ) {
         return <CheckoutLayout library={ library } user={ user } timeout={ logoutTimeLeft } timeLimit={ LOGOUT_TIME_LIMIT } books={ booksCheckedOut } checkoutBook={ doCheckoutBook } logout={ doLogout } showAlert={ showCheckoutAlert } alert={ checkoutAlert } />;
     } else if ( library ) {
         return <LoginLayout library={ library } login={ doLogin } showAlert={ showLoginAlert } alert={ loginAlert } />;
+    } else if ( libraries ) {
+        return <LibraryLoginLayout libraries={ libraries } currentLibrary={ currentLibrary } setCurrentLibrary={ setCurrentLibrary } login={ doLibraryLogin } showAlert={ showLibraryLoginAlert } alert={ libraryLoginAlert } />;
     } else {
         return <div>{ t('libraryNotFound') }</div>;
     }

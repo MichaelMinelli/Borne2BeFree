@@ -8,11 +8,11 @@
             "currency" : "{{value}} CHF",
             "libraries": [
                 {
-                    "code"             : "12345",
                     "logo"             : "url/to/image.jpg",
                     "featureImage"     : "url/to/image.jpg",
                     "name"             : "Friendly Library Name",
                     "organization"     : "Friendly Organization Name",
+                    "password"         : "XXXXX",
                     "apiName"          : "XXXXX",
                     "apiCircDesk"      : "XXXXXXXXXXXXXXXX",
                     "permitIpAddresses": [
@@ -20,9 +20,9 @@
                     ]
                 },
                 {
-                    "code"        : "67890",
                     "name"        : "Friendly Library Name",
                     "organization": "Friendly Organization Name",
+                    "password"    : "XXXXX",
                     "apiName"     : "XXXXX",
                     "apiCircDesk" : "XXXXXXXXXXXXXXXX"
                 }

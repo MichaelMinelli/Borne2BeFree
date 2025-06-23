@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 
 const UserLibrary = z.strictObject({
-                                       code: z.string(),
+                                       password: z.string(),
 
                                        logo        : z.string().optional(),
                                        featureImage: z.string().optional(),

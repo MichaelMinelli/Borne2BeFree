@@ -348,3 +348,4 @@ tags
 config.json
 config.prod.json
 *.apiKey
+*.password
