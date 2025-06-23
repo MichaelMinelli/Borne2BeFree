@@ -1,6 +1,7 @@
 // Rename this file to `config.json` (for dev) and `config.prod.json` (for docker deployment) and populate the values for your institution
 {
-    "zones": [
+    "jwtSecret": "XXXXX",
+    "zones"    : [
         {
             "name"     : "Zone Name",
             "hostname" : "https://api-na.hosted.exlibrisgroup.com",

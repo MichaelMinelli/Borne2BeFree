@@ -1,13 +1,12 @@
-import * as process     from 'process';
-import { Library }      from '../types/Library';
-import { Zone }         from '../types/Zone';
-import { UserLibrary }  from '../types/UserLibrary';
-import * as fs          from 'fs-extra';
-import { UserConfig }   from '../types/UserConfig';
-import { z }            from 'zod';
-import { fromError }    from 'zod-validation-error';
-import { Logger }       from 'winston';
-import { v4 as uuidv4 } from 'uuid';
+import * as process    from 'process';
+import { Library }     from '../types/Library';
+import { Zone }        from '../types/Zone';
+import { UserLibrary } from '../types/UserLibrary';
+import * as fs         from 'fs-extra';
+import { UserConfig }  from '../types/UserConfig';
+import { z }           from 'zod';
+import { fromError }   from 'zod-validation-error';
+import { Logger }      from 'winston';
 
 
 class Config {
@@ -17,7 +16,7 @@ class Config {
 
     public readonly logsFolder: string;
 
-    public readonly jwtSecret: string = uuidv4();
+    public jwtSecret: string = '';
 
     public readonly api: {
         port: number
@@ -40,6 +39,10 @@ class Config {
     // The logger is passed as an argument because if we import it we have an infinite dependency loop
     async loadUserConfig(logger: Logger) {
         const userConfigFile: UserConfig = await fs.readJson(this.userConfigFilePath) as UserConfig;
+
+        // Load the JWT secret from a Docker secret if it is not a path
+        const path = userConfigFile.jwtSecret.includes('/') ? userConfigFile.jwtSecret : `/run/secrets/${ userConfigFile.jwtSecret }`;
+        this.jwtSecret = fs.readFileSync(path, 'utf8');
 
         // ensure that the configuration is valid
         {
