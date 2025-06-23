@@ -1,15 +1,15 @@
 {
     "alert"          : {
         "findingUser": "Recherche de l'utilisateur...",
-        "checkingOut": "Vérification de l'article..."
+        "checkingOut": "Vérification du document..."
     },
     "loading"        : "Chargement...",
-    "libraryNeeded"  : "Le paramètre 'library' est requis dans l'URL.",
+    "libraryNeeded"  : "Le paramètre 'Bibliothèque' est requis dans l'URL.",
     "libraryNotFound": "Bibliothèque introuvable",
     "bookTable"      : {
         "columns": {
             "dueDate": "Date d'échéance",
-            "book"   : "Livre"
+            "book"   : "Document"
         },
         "rows"   : {
             "others": "et {{count}} autres..."
@@ -21,15 +21,15 @@
             "requests": "Demandes",
             "fees"    : "Amendes & Frais"
         },
-        "scanPlaceholder"      : "Scannez votre prochain article",
-        "error"                : "Une erreur est survenue lors de la vérification de l'article.",
+        "scanPlaceholder"      : "Scannez le code-barre du prochain document",
+        "error"                : "Une erreur est survenue lors de la vérification du document.",
         "logout"               : "Déconnexion",
         "logoutInstructions"   : "Pour vous déconnecter, scannez à nouveau votre carte de bibliothèque.",
         "logoutCountdown_one"  : "Déconnexion dans 1 seconde",
         "logoutCountdown_other": "Déconnexion dans {{count}} secondes"
     },
     "libraryLogin"   : {
-        "title"              : "Borne2BeFree",
+        "title"              : "Bornéo",
         "libraryPlaceholder" : "Sélectionnez votre bibliothèque",
         "passwordPlaceholder": "Mot de passe",
         "submit"             : "Connexion",
