@@ -11,7 +11,7 @@ services:
         volumes:
             - logs:/logs
         networks:
-            borne2befree:
+            borneo:
                 aliases:
                     - api
         configs:
@@ -28,7 +28,7 @@ services:
             context: ./
             dockerfile: Dockerfile_Frontend
         networks:
-            borne2befree:
+            borneo:
                 aliases:
                     - frontend
         restart: always
@@ -39,7 +39,7 @@ services:
         container_name: proxy
         image: nginx:1-alpine
         networks:
-            borne2befree:
+            borneo:
                 aliases:
                     - proxy
         configs:
@@ -57,7 +57,7 @@ volumes:
     logs:
 
 networks:
-    borne2befree:
+    borneo:
 
 configs:
     user_config:

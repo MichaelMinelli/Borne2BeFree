@@ -1,17 +1,17 @@
 {
-    "name": "borne2befree-frontend",
+    "name": "borneo-frontend",
     "description": "Alma Self-Checkout tool that doesn't use CORS",
     "version": "2.0.0",
     "private": true,
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/MichaelMinelli/Borne2BeFree.git"
+        "url": "git+https://github.com/MichaelMinelli/Borneo.git"
     },
     "keywords": [
         "alma"
     ],
     "bugs": {
-        "url": "https://github.com/MichaelMinelli/Borne2BeFree/issues"
+        "url": "https://github.com/MichaelMinelli/Borneo/issues"
     },
     "type": "module",
     "scripts": {

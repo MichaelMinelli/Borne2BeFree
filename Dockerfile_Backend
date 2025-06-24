@@ -3,8 +3,8 @@ ARG BUILD_DEPLOY_WORKDIR=/app
 
 ######################################################################## Build stage
 FROM node:24-bullseye AS builder
-LABEL maintainer="Michaël Minelli <borne2befree@mail.minelli.swiss>"
-LABEL Description="API of Borne2BeFree - Build stage"
+LABEL maintainer="Michaël Minelli <borneo@mail.minelli.swiss>"
+LABEL Description="API of Borneo - Build stage"
 
 ARG BUILD_DEPLOY_WORKDIR
 
@@ -25,8 +25,8 @@ RUN npm run build
 
 ######################################################################## Run stage
 FROM node:24-bullseye
-LABEL maintainer="Michaël Minelli <borne2befree@mail.minelli.swiss>"
-LABEL Description="API of Borne2BeFree - Run stage"
+LABEL maintainer="Michaël Minelli <borneo@mail.minelli.swiss>"
+LABEL Description="API of Borneo - Run stage"
 
 ARG BUILD_DEPLOY_WORKDIR
 

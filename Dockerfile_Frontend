@@ -1,7 +1,7 @@
 ############################################################################################# BEGIN Build
 FROM node:24-alpine AS builder
-LABEL maintainer="Michaël Minelli <borne2befree@mail.minelli.swiss>"
-LABEL Description="Frontend of Borne2BeFree - Build stage"
+LABEL maintainer="Michaël Minelli <borneo@mail.minelli.swiss>"
+LABEL Description="Frontend of Borneo - Build stage"
 
 RUN apk update \
   && apk add --no-cache git
@@ -19,8 +19,8 @@ RUN npm run build
 
 ############################################################################################# BEGIN Make frontend available on port 80 and 443
 FROM nginx:1.27-alpine
-LABEL maintainer="Michaël Minelli <borne2befree@mail.minelli.swiss>"
-LABEL Description="Frontend of Borne2BeFree - Run stage"
+LABEL maintainer="Michaël Minelli <borneo@mail.minelli.swiss>"
+LABEL Description="Frontend of Borneo - Run stage"
 
 ## Copy our default nginx config
 ADD frontend/nginx/default.conf /etc/nginx/conf.d/

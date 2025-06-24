@@ -1,5 +1,5 @@
-FROM nginx:1.15-alpine
-LABEL maintainer="Michaël Minelli <borne2befree@mail.minelli.swiss>"
+FROM nginx:1-alpine
+LABEL maintainer="Michaël Minelli <borneo@mail.minelli.swiss>"
 LABEL Description=""
 
 ## Copy our default nginx config
