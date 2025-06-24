@@ -1,9 +1,0 @@
-FROM nginx:1-alpine
-LABEL maintainer="Michaël Minelli <borneo@mail.minelli.swiss>"
-LABEL Description=""
-
-## Copy our default nginx config
-ADD proxy/default.conf /etc/nginx/conf.d/
-
-EXPOSE 80
-EXPOSE 443
