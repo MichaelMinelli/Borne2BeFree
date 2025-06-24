@@ -41,7 +41,7 @@ const LoginLayout: React.FC<LoginLayoutProps> = ({
             </div>
 
             <div className="shrink flex-row">
-                <InputBox placeholder={ t('login.loginPlaceholder') } Icon={ IdentificationIcon } onClick={ login } autoFocus={ true } />
+                <InputBox placeholder={ t('login.loginPlaceholder') } Icon={ IdentificationIcon } onClick={ login } autoFocus={ true } hideEntry={ true } />
             </div>
             { showAlert && <div className="shrink">
                 <AlertBox visible={ showAlert } params={ alert }>

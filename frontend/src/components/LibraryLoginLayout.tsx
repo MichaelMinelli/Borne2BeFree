@@ -39,7 +39,7 @@ const LibraryLoginLayout: React.FC<LibraryLoginLayoutProps> = ({
 
             <div className="shrink flex-row">
                 <LibrariesDopdown libraries={ libraries } currentLibrary={ currentLibrary } setCurrentLibrary={ setCurrentLibrary } />
-                <InputBox placeholder={ t('libraryLogin.passwordPlaceholder') } Icon={ PasswordIcon } onClick={ login } autoFocus={ true } />
+                <InputBox placeholder={ t('libraryLogin.passwordPlaceholder') } hideEntry={ true } Icon={ PasswordIcon } onClick={ login } autoFocus={ true } />
             </div>
             { showAlert && <div className="shrink">
                 <AlertBox visible={ showAlert } params={ alert }>

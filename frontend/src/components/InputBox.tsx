@@ -7,6 +7,7 @@ interface InputBoxProps {
     placeholder: string;
     autoFocus?: boolean;
     onClick: (value: string) => Promise<void>;
+    hideEntry: boolean;
 }
 
 
@@ -14,7 +15,8 @@ const InputBox: React.FC<InputBoxProps> = ({
                                                Icon,
                                                placeholder,
                                                autoFocus,
-                                               onClick
+                                               onClick,
+                                               hideEntry = false
                                            }) => {
     const textInput = useRef<HTMLInputElement>(null);
 
@@ -37,7 +39,7 @@ const InputBox: React.FC<InputBoxProps> = ({
         <div className="flex-none flex items-center m-5">
             <Icon classes={ 'w-8 h-8' } />
         </div>
-        <input ref={ textInput } className="text-2xl bg-transparent outline-none grow" placeholder={ ' ' + placeholder } onKeyUp={ key => {
+        <input ref={ textInput } className="text-2xl bg-transparent outline-none grow" type={ hideEntry ? 'password' : 'text' } placeholder={ ' ' + placeholder } onKeyUp={ key => {
             if ( key.key === 'Enter' ) {
                 clickCallback().then();
             }
