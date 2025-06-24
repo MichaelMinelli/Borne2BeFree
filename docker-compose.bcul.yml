@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  api:
+    image: borneo-backend:latest
+    environment:
+      TZ: 'Europe/Zurich'
+      LOGS_FOLDER: '/logs'
+      USER_CONFIG_FILE_PATH: '/config.json'
+    volumes:
+      - logs:/logs
+    networks:
+      - borneo-network
+    configs:
+      - source: user_config
+        target: /config.json
+    secrets:
+      - jwtSecret
+      - spApiKey
+      - elpApiKey
+      - elpPassword
+      - spPassword
+    deploy:
+      restart_policy:
+        condition: any
+
+  frontend:
+    image: borneo-frontend:latest
+    networks:
+      - borneo-network
+    depends_on:
+      - api
+    deploy:
+      restart_policy:
+        condition: any
+
+  proxy:
+    image: nginx:1-alpine
+    networks:
+      - borneo-network
+    configs:
+      - source: proxy_config
+        target: /etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - api
+      - frontend
+    deploy:
+      restart_policy:
+        condition: any
+
+volumes:
+  logs:
+
+networks:
+  borneo-network:
+    driver: overlay
+
+configs:
+  user_config:
+    external: true
+  proxy_config:
+    external: true
+
+secrets:
+  jwtSecret:
+    external: true
+  spApiKey:
+    external: true
+  elpApiKey:
+    external: true
+  elpPassword:
+    external: true
+  spPassword:
+    external: true
