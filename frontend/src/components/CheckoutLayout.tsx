@@ -85,7 +85,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
 
             {/* <!-- Barcode Scanner --> */ }
             <div className="shrink w-3/4 mt-20">
-                <InputBox placeholder={ t('checkout.scanPlaceholder') } Icon={ BookOpenIcon } onClick={ checkoutBook } autoFocus={ true } />
+                <InputBox placeholder={ t('checkout.scanPlaceholder') } Icon={ BookOpenIcon } onClick={ checkoutBook } autoFocus={ true } hideEntry={ false } />
             </div>
 
             {/* <!-- Alert Dialog --> */ }
