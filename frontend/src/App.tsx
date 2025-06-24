@@ -180,6 +180,8 @@ const App: React.FC = () => {
         const checkedOutBarcodes = booksCheckedOut.map(b => b.barcode);
 
         if ( checkedOutBarcodes.includes(bookBarcode) ) {
+            console.error('Trying to check out a book that is already checked out', bookBarcode, booksCheckedOut);
+
             // Promote Book in List
             const oldBooksCheckedOut = booksCheckedOut.slice();
             const thisBookIndex = oldBooksCheckedOut.findIndex(b => b.barcode === bookBarcode);
@@ -220,7 +222,7 @@ const App: React.FC = () => {
             setShowCheckoutAlert(false);
             setBooksCheckedOut([ newBook ].concat(booksCheckedOut));
         }
-    }, [ user, library, currentUserBarcode, checkoutFailureMessageTimeout ]);
+    }, [ user, library, booksCheckedOut, currentUserBarcode, checkoutFailureMessageTimeout ]);
 
     // Effect to handle the initial loading of the app (similar to old componentDidMount)
     useEffect(() => {
