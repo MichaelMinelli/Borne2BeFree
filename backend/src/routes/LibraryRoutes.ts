@@ -54,7 +54,8 @@ class LibraryRoutes implements RoutesManager {
             featureImage    : library.featureImage,
             name            : library.name,
             currency        : library.currency,
-            organizationName: library.organization
+            organizationName: library.organization,
+            logoutTime      : library.logoutTime
         };
 
         return req.session.sendResponse(res, StatusCodes.OK, {
