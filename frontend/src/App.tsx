@@ -118,7 +118,7 @@ const App: React.FC = () => {
         } else {
             setUser(newUser);
             setShowLoginAlert(false);
-            setLogoutTimeLeft(LOGOUT_TIME_LIMIT);
+            setLogoutTimeLeft(library!.logoutTime);
             setLoggedIn(true);
 
 
@@ -192,7 +192,7 @@ const App: React.FC = () => {
                 .concat(oldBooksCheckedOut);
 
             // Pretend to have successfully checked out a book
-            setLogoutTimeLeft(LOGOUT_TIME_LIMIT);
+            setLogoutTimeLeft(library!.logoutTime);
             setShowCheckoutAlert(false);
             setBooksCheckedOut(newBooksCheckedOut);
 
@@ -203,7 +203,7 @@ const App: React.FC = () => {
         const newBook = await checkout(library!, bookBarcode, user.id);
         if ( 'failureMessage' in newBook ) {
             // Error checking out book
-            setLogoutTimeLeft(LOGOUT_TIME_LIMIT);
+            setLogoutTimeLeft(library!.logoutTime);
             setShowCheckoutAlert(true);
             setCheckoutAlert({
                                  message  : t('checkout.error'),
@@ -218,7 +218,7 @@ const App: React.FC = () => {
             }, CHECKOUT_ALERT_TIMEOUT_SECONDS * 1000);
         } else {
             // Successfully checked out book
-            setLogoutTimeLeft(LOGOUT_TIME_LIMIT);
+            setLogoutTimeLeft(library!.logoutTime);
             setShowCheckoutAlert(false);
             setBooksCheckedOut([ newBook ].concat(booksCheckedOut));
         }
@@ -242,7 +242,7 @@ const App: React.FC = () => {
     if ( loading ) {
         return <div>{ t('loading') }</div>;
     } else if ( loggedIn && library ) {
-        return <CheckoutLayout library={ library } user={ user } timeout={ logoutTimeLeft } timeLimit={ LOGOUT_TIME_LIMIT } books={ booksCheckedOut } checkoutBook={ doCheckoutBook } logout={ doLogout } showAlert={ showCheckoutAlert } alert={ checkoutAlert } />;
+        return <CheckoutLayout library={ library } user={ user } timeout={ logoutTimeLeft } books={ booksCheckedOut } checkoutBook={ doCheckoutBook } logout={ doLogout } showAlert={ showCheckoutAlert } alert={ checkoutAlert } />;
     } else if ( library ) {
         return <LoginLayout library={ library } login={ doLogin } showAlert={ showLoginAlert } alert={ loginAlert } />;
     } else if ( libraries ) {

@@ -6,6 +6,7 @@ interface Library {
     organizationName: string,
     currency: string,
     featureImage?: string,
+    logoutTime: number,
     token: string
 }
 
