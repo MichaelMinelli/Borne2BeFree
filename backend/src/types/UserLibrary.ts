@@ -10,6 +10,10 @@ const UserLibrary = z.strictObject({
                                        name        : z.string(),
                                        organization: z.string(),
 
+                                       description: z.string().optional(),
+
+                                       logoutTime: z.number().optional(),
+
                                        apiName    : z.string(),
                                        apiCircDesk: z.string(),
 

@@ -65,6 +65,8 @@ class Config {
                     ...zone, ...library
                 };
 
+                result.logoutTime = library.logoutTime || zone.logoutTime;
+
                 // If library.apiKey is not a path (contain no '/'), assume that it is the name of a Docker secret
                 let path = result.apiKey.includes('/') ? result.apiKey : `/run/secrets/${ result.apiKey }`;
                 result.apiKey = fs.readFileSync(path, 'utf8');

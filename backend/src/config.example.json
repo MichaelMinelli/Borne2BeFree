@@ -3,16 +3,18 @@
     "jwtSecret": "XXXXX",
     "zones"    : [
         {
-            "name"     : "Zone Name",
-            "hostname" : "https://api-na.hosted.exlibrisgroup.com",
-            "apiKey"   : "Path to your API key file",
-            "currency" : "{{value}} CHF",
-            "libraries": [
+            "name"      : "Zone Name",
+            "hostname"  : "https://api-na.hosted.exlibrisgroup.com",
+            "apiKey"    : "Path to your API key file",
+            "currency"  : "{{value}} CHF",
+            "logoutTime": 60,
+            "libraries" : [
                 {
                     "logo"             : "url/to/image.jpg",
                     "featureImage"     : "url/to/image.jpg",
                     "name"             : "Friendly Library Name",
                     "organization"     : "Friendly Organization Name",
+                    "logoutTime"       : 120,
                     "password"         : "XXXXX",
                     "apiName"          : "XXXXX",
                     "apiCircDesk"      : "XXXXXXXXXXXXXXXX",

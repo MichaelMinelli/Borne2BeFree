@@ -16,7 +16,6 @@ interface CheckoutLayoutProps {
     library: Library;
     user: User;
     timeout: number;
-    timeLimit: number;
     checkoutBook: (bookBarcode: string) => Promise<void>;
     logout: () => void;
     books: Array<Book>;
@@ -29,7 +28,6 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
                                                            library,
                                                            user,
                                                            timeout,
-                                                           timeLimit,
                                                            checkoutBook,
                                                            logout,
                                                            books,
@@ -110,7 +108,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
             { library.logo && (<div className="w-full bg-white flex flex-row justify-center pt-2">
                 <img src={ library.logo } className="h-24 z-0" alt={ `${ library } - ${ library.organizationName } logo` } />
             </div>) }
-            <div className="bg-stone-700" style={ { width: (100 - timeout / timeLimit * 100) + '%' } }>
+            <div className="bg-stone-700" style={ { width: (100 - timeout / library.logoutTime * 100) + '%' } }>
                 <div className="text-stone-100 uppercase text-sm font-bold px-4 py-1 whitespace-nowrap">
                     { t('checkout.logoutCountdown', { count: Math.round(timeout) }) }
                 </div>
