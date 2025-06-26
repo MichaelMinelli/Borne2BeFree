@@ -11,11 +11,13 @@ import logger              from '../logging/WinstonLogger.js';
  */
 class ClusterManager {
     public static readonly CORES = os.cpus().length;
+    private readonly primaryFunction: () => void;
     private readonly strategy: ClusterStrategy;
 
     private workers: { [pid: number]: WorkerRole; } = [];
 
-    constructor(strategy: ClusterStrategy) {
+    constructor(primaryFunction: () => void, strategy: ClusterStrategy) {
+        this.primaryFunction = primaryFunction;
         this.strategy = strategy;
     }
 
@@ -32,8 +34,18 @@ class ClusterManager {
     }
 
     private runPrimary() {
-        logger.info(`Number of cores: ${ ClusterManager.CORES }`);
-        logger.info(`Primary process is running`);
+        logger.info(`###################################################################### Begin Primary Process`);
+
+        logger.info(`#`);
+        logger.info(`# Primary function logs:`);
+        this.primaryFunction();
+        logger.info(`#`);
+
+        logger.info(`# Number of cores: ${ ClusterManager.CORES }`);
+        logger.info(`# Primary process is running`);
+        logger.info(`#`);
+
+        logger.info(`###################################################################### End Primary Process`);
 
         this.strategy.forEach(workerPool => {
             for ( let i = 0 ; i < workerPool.quantity ; i += 1 ) {

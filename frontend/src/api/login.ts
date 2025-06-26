@@ -9,6 +9,7 @@ const getLoginUrl = (userBarcode: string): string => buildLibraryUrl(`users/${ u
 
 interface LoginFailure {
     failureMessage: string;
+    retryAfter?: string;
 }
 
 
@@ -27,17 +28,23 @@ async function libraryLogin(apiName: string, password: string): Promise<LibraryL
                                         password
                                     })
         });
-        libraryResponse;
 
         const response = await libraryResponse.json();
         if ( 'error' in response && response.error ) {
+            if ( libraryResponse.status === 429 ) {
+                return {
+                    failureMessage: `Too many requests`,
+                    retryAfter    : response.retryAfter
+                };
+            }
+
             return {
                 failureMessage: `${ response.error }. Please see the circulation desk for more information.`
             };
         }
         return response;
     } catch ( error ) {
-        console.error('Failed to login', error);
+        console.error('Failed to login', JSON.stringify(error));
         return {
             failureMessage: 'Could not log in. Please try again or ask for help at the circulation desk.'
         };

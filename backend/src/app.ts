@@ -1,12 +1,13 @@
 //
 // Dependencies
 //
-import Config         from './config/Config';
-import ClusterManager from './process/ClusterManager';
-import WorkerRole     from './process/WorkerRole';
-import API            from './express/API';
-import { Library }    from './types/Library';
-import logger         from './logging/WinstonLogger.js';
+import Config                       from './config/Config';
+import ClusterManager               from './process/ClusterManager';
+import WorkerRole                   from './process/WorkerRole';
+import API                          from './express/API';
+import { Library }                  from './types/Library';
+import logger                       from './logging/WinstonLogger.js';
+import { RateLimiterClusterMaster } from 'rate-limiter-flexible';
 
 
 (async () => {
@@ -30,16 +31,14 @@ import logger         from './logging/WinstonLogger.js';
         }
     }
 
-    if ( Config.production ) {
-        (new ClusterManager([ {
-            role         : WorkerRole.API,
-            quantity     : ClusterManager.CORES,
-            restartOnFail: true,
-            loadTask     : () => new API()
-        } ])).run();
-    } else {
-        (new API()).run();
-    }
+    (new ClusterManager(() => {
+        new RateLimiterClusterMaster();
+    }, [ {
+        role         : WorkerRole.API,
+        quantity     : ClusterManager.CORES,
+        restartOnFail: true,
+        loadTask     : () => new API()
+    } ])).run();
 })().then();
 
 

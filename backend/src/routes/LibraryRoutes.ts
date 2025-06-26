@@ -1,10 +1,14 @@
-import { Express }                 from 'express-serve-static-core';
-import express, { RequestHandler } from 'express';
-import { StatusCodes }             from 'http-status-codes';
-import RoutesManager               from '../express/RoutesManager.js';
-import SecurityMiddleware          from '../middlewares/SecurityMiddleware';
-import Config                      from '../config/Config';
-import * as jwt                    from 'jsonwebtoken';
+import { Express }                            from 'express-serve-static-core';
+import express, { RequestHandler }            from 'express';
+import { StatusCodes }                        from 'http-status-codes';
+import RoutesManager                          from '../express/RoutesManager.js';
+import SecurityMiddleware                     from '../middlewares/SecurityMiddleware';
+import Config                                 from '../config/Config';
+import * as jwt                               from 'jsonwebtoken';
+import { RateLimiterCluster, RateLimiterRes } from 'rate-limiter-flexible';
+
+
+const MAX_CONSECUTIVE_FAILS_BY_IP = 3;
 
 
 class LibraryRoutes implements RoutesManager {
@@ -14,7 +18,6 @@ class LibraryRoutes implements RoutesManager {
     }
 
     private async getLibraries(req: express.Request, res: express.Response) {
-
         const libraries = Object.values(Config.libraries).map((library) => {
             return {
                 name   : library.name,
@@ -39,6 +42,26 @@ class LibraryRoutes implements RoutesManager {
             });
         }
 
+        const loginFailsLimiter = new RateLimiterCluster({
+                                                             keyPrefix    : 'loginFailsLimiterByIp_',
+                                                             points       : MAX_CONSECUTIVE_FAILS_BY_IP, // 3 try before block
+                                                             duration     : 60 * 60 * 3, // Store number for three hours since first fail
+                                                             blockDuration: 60 * 15 // Block for 15 minutes
+                                                         });
+
+        const rateLimiterKey = req.ip || libraryApiName;
+        const rateLimiterRes = await loginFailsLimiter.get(rateLimiterKey);
+
+        if ( rateLimiterRes !== null && rateLimiterRes.consumedPoints > MAX_CONSECUTIVE_FAILS_BY_IP ) {
+            const retrySecs = Math.round(rateLimiterRes.msBeforeNext / 1000) || 1;
+            res.set('Retry-After', String(retrySecs));
+            res.status(429).send({
+                                     error     : 'Too Many Requests',
+                                     retryAfter: String(retrySecs)
+                                 });
+            return;
+        }
+
         const library = Config.libraries[libraryApiName];
 
         if ( library.permitIpAddresses && library.permitIpAddresses.length > 0 && req.ip !== undefined && !library.permitIpAddresses.includes(req.ip.split(':').pop()!) ) {
@@ -46,8 +69,26 @@ class LibraryRoutes implements RoutesManager {
         }
 
         if ( req.body.password !== library.password ) {
-            return req.session.sendResponse(res, StatusCodes.UNAUTHORIZED);
+            try {
+                await loginFailsLimiter.consume(rateLimiterKey);
+
+                req.session.sendResponse(res, StatusCodes.UNAUTHORIZED);
+            } catch ( rlRejected ) {
+                if ( rlRejected instanceof Error ) {
+                    throw rlRejected;
+                } else {
+                    res.set('Retry-After', String(Math.round((rlRejected as RateLimiterRes).msBeforeNext / 1000)) || '1');
+                    res.status(429).send({
+                                             error     : 'Too Many Requests',
+                                             retryAfter: String(Math.round((rlRejected as RateLimiterRes).msBeforeNext / 1000)) || '1'
+                                         });
+                }
+            }
+
+            return;
         }
+
+        await loginFailsLimiter.delete(rateLimiterKey);
 
         const libraryClientObject = {
             logo            : library.logo,
