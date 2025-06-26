@@ -76,7 +76,7 @@ const App: React.FC = () => {
             const newLibrary = await libraryLogin(currentLibrary.apiName, password);
             if ( 'failureMessage' in newLibrary ) {
                 setLibraryLoginAlert({
-                                         message  : t('libraryLogin.error'),
+                                         message  : newLibrary.failureMessage === 'Too many requests' ? t('libraryLogin.errorAttempts').replace('{{retryAfter}}', newLibrary.retryAfter!) : t('libraryLogin.error'),
                                          isWarning: true,
                                          color    : 'red'
                                      });

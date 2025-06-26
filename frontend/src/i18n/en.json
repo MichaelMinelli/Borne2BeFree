@@ -32,7 +32,8 @@
         "libraryPlaceholder" : "Select your library",
         "passwordPlaceholder": "Password",
         "submit"             : "Connect",
-        "error"              : "An error occurred while connecting. Please try again."
+        "error"              : "An error occurred while connecting. Please try again.",
+        "errorAttempts"      : "You have exceeded the maximum number of login attempts. Please try again in {{retryAfter}} seconds."
     },
     "login"          : {
         "title"           : "{{libraryName}}",

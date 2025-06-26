@@ -28,11 +28,12 @@
         "logoutCountdown_other": "Déconnexion dans {{count}} secondes"
     },
     "libraryLogin"   : {
-        "title"              : "Bornéo",
+        "title"              : "Borneo",
         "libraryPlaceholder" : "Sélectionnez votre bibliothèque",
         "passwordPlaceholder": "Mot de passe",
         "submit"             : "Connexion",
-        "error"              : "Une erreur est survenue lors de la connexion. Veuillez réessayer."
+        "error"              : "Une erreur est survenue lors de la connexion. Veuillez réessayer.",
+        "errorAttempts"      : "Vous avez dépassé le nombre maximum de tentatives de connexion. Veuillez réessayer dans {{retryAfter}} secondes."
     },
     "login"          : {
         "title"           : "{{libraryName}}",

@@ -32,7 +32,8 @@
         "libraryPlaceholder" : "Seleziona la biblioteca",
         "passwordPlaceholder": "Password",
         "submit"             : "Connetti",
-        "error"              : "Si è verificato un errore durante la connessione. Riprova."
+        "error"              : "Si è verificato un errore durante la connessione. Riprova.",
+        "errorAttempts"      : "Hai superato il numero massimo di tentativi di accesso. Riprova tra {{retryAfter}} secondi."
     },
     "login"          : {
         "title"           : "{{libraryName}}",

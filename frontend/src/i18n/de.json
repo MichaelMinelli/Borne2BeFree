@@ -32,7 +32,8 @@
         "libraryPlaceholder" : "Bibliothek auswählen",
         "passwordPlaceholder": "Passwort",
         "submit"             : "Verbinden",
-        "error"              : "Beim Verbinden ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+        "error"              : "Beim Verbinden ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+        "errorAttempts"      : "Sie haben die maximale Anzahl an Anmeldeversuchen überschritten. Bitte versuchen Sie es in {{retryAfter}} Sekunden erneut."
     },
     "login"          : {
         "title"           : "{{libraryName}}",
