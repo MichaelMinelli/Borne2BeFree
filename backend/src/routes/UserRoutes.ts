@@ -5,6 +5,7 @@ import RoutesManager               from '../express/RoutesManager.js';
 import SecurityMiddleware          from '../middlewares/SecurityMiddleware';
 import logger                      from '../logging/WinstonLogger';
 import AlmaHelper                  from '../helpers/AlmaHelper';
+import { RateLimiterCluster }      from 'rate-limiter-flexible';
 
 
 interface Loan {
@@ -21,6 +22,22 @@ class UserRoutes implements RoutesManager {
     }
 
     private async getUser(req: express.Request, res: express.Response) {
+        const rateLimiter = new RateLimiterCluster({
+                                                       keyPrefix: 'getUserLimiterByIp_',
+                                                       points   : 5,
+                                                       duration : 1
+                                                   });
+
+        if ( req.ip ) {
+            try {
+                await rateLimiter.consume(req.ip);
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch ( err ) {
+                res.status(429).send('Too Many Requests');
+                return;
+            }
+        }
+
 
         const user = await AlmaHelper.getUser(req.session.profile!, req.params.userId);
         if ( !user ) {
